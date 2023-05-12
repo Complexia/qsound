@@ -1,17 +1,10 @@
 use anyhow::Result;
+use serde_json::Value;
+
+use crate::models::songs::Song;
 
 
-pub fn fetch_from_s3(uuid: String) -> Result<Vec<u8>> {
-    let spaces_api_key = crate::utilities::get_env_variable("SPACES_API_KEY", "");
-    let client = Client::new(crate::uti);
-
-    // Get the file
-    let file = client.get("qsound", uuid)?;
-
-    // Get the file as a Vec<u8>
-    let bytes = file.into_bytes()?;
-
-    
+pub async fn upload_to_s3(request: Song) -> Result<Value> {
+    let bytes = crate::entities::pyspaces::upload_to_s3(&request).await?;
     Ok(bytes)
-
 }

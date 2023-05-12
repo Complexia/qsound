@@ -15,6 +15,80 @@ pub struct Song {
     pub original_owner_address: String,
 }
 
+impl Default for Song {
+    fn default() -> Self {
+        Song {
+            uuid: "".to_string(),
+            name: None,
+            artist: None,
+            label: None,
+            release_date: None,
+            duration: None,
+            nft_contract_address: None,
+            owner_address: None,
+            original_owner_address: "".to_string(),
+        }
+    }
+}
+
+impl Song {
+    pub fn as_bytes(&self) -> Vec<u8> {
+        // Serialize the struct fields into a byte vector
+        let mut bytes = Vec::new();
+        
+        // Serialize the uuid field
+        bytes.extend_from_slice(self.uuid.as_bytes());
+        bytes.push(b'\0'); // Add a null byte as a separator
+        
+        // Serialize the name field
+        if let Some(name) = &self.name {
+            bytes.extend_from_slice(name.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the artist field
+        if let Some(artist) = &self.artist {
+            bytes.extend_from_slice(artist.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the label field
+        if let Some(label) = &self.label {
+            bytes.extend_from_slice(label.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the release_date field
+        if let Some(release_date) = &self.release_date {
+            bytes.extend_from_slice(release_date.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the duration field
+        if let Some(duration) = &self.duration {
+            bytes.extend_from_slice(duration.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the nft_contract_address field
+        if let Some(nft_contract_address) = &self.nft_contract_address {
+            bytes.extend_from_slice(nft_contract_address.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the owner_address field
+        if let Some(owner_address) = &self.owner_address {
+            bytes.extend_from_slice(owner_address.as_bytes());
+        }
+        bytes.push(b'\0');
+        
+        // Serialize the original_owner_address field
+        bytes.extend_from_slice(self.original_owner_address.as_bytes());
+        
+        bytes
+    }
+}
+
 //list of all of the access contracts
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct AccessContracts {

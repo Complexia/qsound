@@ -7,9 +7,9 @@ app = Flask(__name__)
 @app.route('/upload-song-spaces', methods=['POST'])
 def upload_song():
     req = request.json  
-    endpoint = os.getenv('SPACES_ENDPOINT')
+    endpoint = req['endpoint']
     client = s3.create_client(endpoint)
-    bucket_name = 'songs'
+    bucket_name = req['bucket_name']
     file_name = req['file_name']
     file_bytes = req['file_bytes']
     metadata = {}
