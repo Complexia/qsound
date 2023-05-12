@@ -12,5 +12,5 @@ optimism - simply deploy
 </br>
 polugon - simply deploy
 </br>
-&& more - update this least
+&& more - update this list
 
