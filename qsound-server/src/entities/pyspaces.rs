@@ -1,5 +1,4 @@
 use anyhow::Result;
-use reqwest::header::HeaderMap;
 
 use crate::models::{songs::Song, RequestWrapper};
 
@@ -55,4 +54,43 @@ pub async fn upload_to_s3<T: serde::Serialize>(
     
 
     Ok(serde_json::to_value(response).unwrap())
+}
+
+pub async fn download_from_s3<T: serde::Serialize>(
+    request: String,
+) -> Result<serde_json::Value> {
+
+    let entity = "pyspaces";
+
+    
+
+    let bucket_name = crate::utilities::get_env_variable("BUCKET_NAME", "");
+    let spaces_api_key = crate::utilities::get_env_variable("SPACES_API_KEY", "");
+    let spaces_secret_key = crate::utilities::get_env_variable("SPACES_SECRET_KEY", "");
+    let spaces_region = crate::utilities::get_env_variable("SPACES_REGION", "");
+    let spaces_endpoint = crate::utilities::get_env_variable("SPACES_ENDPOINT", ""); 
+
+    let download_from_s3_request = {
+        crate::models::s3::DownloadFromS3Request {
+            uuid: request,
+            bucket_name: bucket_name,
+            spaces_api_key: spaces_api_key,
+            spaces_secret_key: spaces_secret_key,
+            spaces_region: spaces_region,
+            spaces_endpoint: spaces_endpoint,
+        }
+    };
+    
+
+    let request_wrapper = RequestWrapper {
+        entity: entity.to_string(),
+        endpoint: "http://localhost:8000/download-from-s3".to_string(),
+        content: &download_from_s3_request,
+    };
+
+    let response = crate::entities::request(request_wrapper).await?;
+
+    Ok(response)
+    
+
 }
