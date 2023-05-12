@@ -10,8 +10,6 @@ pub async fn fetch_song(
     _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     //check auth header functionality
-    
-    //let res = "".to_string().as_bytes();
 
     //do some stuff here to fetch the track from s3 using its uuid
     //res is supposed to be a bytestream Vec<u8>
