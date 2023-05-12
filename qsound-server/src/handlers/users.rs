@@ -1,7 +1,7 @@
 use reqwest::{header::HeaderMap, StatusCode};
 
 pub async fn get_user(
-    request: crate::models::FindUserRequest,
+    request: crate::models::users::FindUserRequest,
     _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     
@@ -23,7 +23,7 @@ pub async fn get_user(
 }
 
 pub async fn authenticate(
-    request: crate::models::AuthenticationRequest,
+    request: crate::models::users::AuthenticationRequest,
     _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     

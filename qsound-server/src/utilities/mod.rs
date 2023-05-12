@@ -1,5 +1,6 @@
 pub mod mongo;
 pub mod authentication;
+pub mod songs;
 
 use dotenv::dotenv;
 use std::env;

@@ -13,7 +13,7 @@ pub fn user_filter() -> BoxedFilter<(impl warp::Reply,)> {
     let get_user = user_base
         .and(warp::path!("get-user"))
         .and(warp::post())
-        .and(crate::routes::json_body::<models::FindUserRequest>())
+        .and(crate::routes::json_body::<models::users::FindUserRequest>())
         .and(warp::header::headers_cloned())
         .and_then(handlers::users::get_user)
         .boxed();
@@ -21,7 +21,7 @@ pub fn user_filter() -> BoxedFilter<(impl warp::Reply,)> {
     let authenticate = user_base
         .and(warp::path!("authenticate"))
         .and(warp::post())
-        .and(crate::routes::json_body::<models::AuthenticationRequest>())
+        .and(crate::routes::json_body::<models::users::AuthenticationRequest>())
         .and(warp::header::headers_cloned())
         .and_then(handlers::users::authenticate)
         .boxed();

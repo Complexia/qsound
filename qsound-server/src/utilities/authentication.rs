@@ -1,5 +1,5 @@
 use anyhow::Result;
-use crate::models::AuthenticationRequest;
+use crate::models::users::AuthenticationRequest;
 
 //update this function, placeholder for now
 pub async fn authenticate(_request: AuthenticationRequest) -> Result<String> {

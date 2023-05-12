@@ -1,4 +1,4 @@
-use crate::models::{User, FindUserRequest};
+use crate::models::users::{User, FindUserRequest};
 use anyhow::{anyhow, Result};
 
 use futures::stream::TryStreamExt;
