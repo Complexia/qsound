@@ -1,56 +1,21 @@
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import ConnectButton from "@/app/components/metamask/connectButton/connectButton";
+import Link from "next/link";
 
-const Navbar = () => {
-
-  const [address, setAddress] = useState(null);
-  useEffect(() => {
-    const addressValue = localStorage.getItem('address');
-    if (addressValue !== 'undefined' && addressValue !== null) {
-      setAddress(JSON.parse(addressValue))
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('address');
-    setAddress(null);
-  }
-
+export default function Navbar({ children }) {
   return (
-    
-    <nav className= "bg-gradient-to-b from-purple-800 to-black transition-all duration-300 z-10 py-5 ">
-      <div className="flex items-center justify-between px-4">
-        <div className="flex items-center">
-          <Link href="/">   
-            <h1 className="text-white font-bold text-lg">Qsound</h1>
-          </Link>
+    <div className="max-w-[1260px] mx-auto">
+      <nav className="bg-gray-900 text-gray-100 rounded-b-lg">
+        <Link href="/" className="text-2xl font-bold">
+            Purchase Pass
+        </Link>
+        <div className="container mx-auto px-4 py-5 flex justify-between items-center">
+          {/* <Link href="/" className="text-2xl font-bold">
+            Qsound
+          </Link> */}
+          <ConnectButton />
         </div>
-        <div className="flex items-center">
-            
-
-            <Link href={{
-              pathname: '/pass',          
-            }}> 
-                <button className="mr-4 text-white hover:text-purple-800">purchase pass</button>
-            </Link>
-
-            <Link href={{
-              pathname: '/mymusic',          
-            }}> 
-                <button className="mr-4 text-white hover:text-purple-800">my music</button>
-            </Link>
-          <button>Settings</button>
-          {!address ? (
-                <div>connect</div>
-              
-            ) : (
-                <div>disconnect</div>
-
-          )}
-        </div>
-      </div>
-    </nav>
+      </nav>
+      {children}
+    </div>
   );
-};
-
-export default Navbar;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "qsound-ui",
+  "name": "qsound-ui-nonapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -29,6 +29,6 @@
     "next-themes": "^0.2.1",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "web3": "^1.9.0"
+    "web3": "^1.9.0" 
   }
 }
