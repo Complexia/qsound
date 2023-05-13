@@ -2,7 +2,7 @@ import ConnectButton from "@/components/metamask/connectButton/connectButton";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { SismoConnectButton, AuthType } from "@sismo-core/sismo-connect-react";
+
 const Navbar = ({ setShowPremiumModal }) => {
   const [isPremium, setIsPremium] = useState(false);
   useEffect(() => {
@@ -38,29 +38,7 @@ const Navbar = ({ setShowPremiumModal }) => {
               </button>
             </div>
           )}
-          <SismoConnectButton
-            appId={"0x9238875dcd2af75cd8cb2a8202eeb257"}
-            claim={{
-              groupId: "0xceb56193f2d8fb96b3fd4091eb6711c9",
-            }}
-            auth={{
-              authType: AuthType.VAULT,
-            }}
-            signature={{
-              message: "Your message",
-            }}
-            config={{
-              appId: "0x9238875dcd2af75cd8cb2a8202eeb257",
-              devMode: {
-                enabled: true,
-              },
-            }}
-            onResponse={async (response) => {
-              console.log(response);
-              //Send the response to your server to verify it
-              //thanks to the @sismo-core/sismo-connect-server package
-            }}
-          />
+          
           <ConnectButton />
         </div>
       </div>

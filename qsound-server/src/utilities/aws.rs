@@ -1,8 +1,12 @@
 use aws_sdk_s3::config::Credentials;
 use aws_sdk_s3::config::Region;
-use aws_sdk_s3::operation::create_multipart_upload::CreateMultipartUploadOutput;
+use aws_sdk_s3::operation::{
+    create_multipart_upload::CreateMultipartUploadOutput, get_object::GetObjectOutput,
+};
+use aws_sdk_s3::presigning::PresigningConfig;
 use aws_sdk_s3::types::{CompletedMultipartUpload, CompletedPart};
 use aws_sdk_s3::{config, primitives::ByteStream, Client};
+use hyper::StatusCode;
 
 use anyhow::{Context, Result};
 
@@ -10,6 +14,7 @@ use dotenv::dotenv;
 use hyper::HeaderMap;
 
 use std::env;
+use std::time::Duration;
 
 fn get_aws_client() -> Result<Client> {
     // get the id/secret from env
@@ -55,7 +60,7 @@ pub async fn create_multipart_upload(bucket_name: &str, key: &str) -> Result<Str
 
     let keys = list_keys(&client, bucket_name).await?;
     println!("keys: {:?}", keys);
-    
+
     println!("{} {}", bucket_name, key);
     let multipart_upload_res: CreateMultipartUploadOutput = client
         .create_multipart_upload()
@@ -119,11 +124,8 @@ pub async fn complete_multipart_upload(
         .unwrap();
 }
 
-
-
 use crate::utilities::{aws, get_env_variable};
 use futures::{Stream, StreamExt};
-
 
 pub async fn upload_stream<S, B>(
     //use params do do mongo
@@ -139,17 +141,11 @@ where
     let bucket_name = get_env_variable("S3_BUCKET_NAME", "qsound-songs-bucket");
     // {bucket_name}/data/{location_id}/{dispensing_system}/{data_type}_{date_time}.json
     let song_uuid = uuid::Uuid::new_v4().to_string();
-    let key = format!(
-        "{}.mp3",
-        song_uuid
-    );
+    let key = format!("{}.mp3", song_uuid);
 
     let upload_id = aws::create_multipart_upload(&bucket_name, &key)
         .await
-        .map_err(|e| {
-            
-            crate::handlers::Errors::MultipartUploadStartFail(e.to_string())
-        })?;
+        .map_err(|e| crate::handlers::Errors::MultipartUploadStartFail(e.to_string()))?;
 
     let mut bytes_vec: Vec<u8> = vec![];
     let mut part_number = 1; // parts start at 1
@@ -166,8 +162,6 @@ where
         // get the bytes into a u8 vector
         let bytes = data.copy_to_bytes(data.remaining());
         let u8_vec: Vec<u8> = bytes.into();
-
-        
 
         // Gather the bytes until we have roughly 10 megabytes
         if bytes_vec.len() + u8_vec.len() >= 10_000_000 {
@@ -212,7 +206,6 @@ where
     aws::complete_multipart_upload(&bucket_name, &key, &upload_id, upload_parts.clone()).await;
 
     // Tell frontend file is uploaded
-    
 
     // Construct response for information about parts uploaded
     let parts_response: Vec<crate::models::s3::Part> = upload_parts
@@ -222,8 +215,6 @@ where
             part_number: p.part_number,
         })
         .collect();
-
-        
 
     let response = crate::models::s3::UploadResponse {
         uploaded_parts: parts_response,
@@ -235,6 +226,45 @@ where
     ))
 }
 
+pub async fn get_presigned_uri(
+    //use params do do mongo
+    params: crate::models::songs::FetchSong,
+) -> Result<impl warp::Reply, warp::Rejection> {
+    // Get object using presigned request.
+    // snippet-start:[s3.rust.get-object-presigned]
 
+    let client = get_aws_client().unwrap();
+    let bucket = get_env_variable("S3_BUCKET_NAME", "qsound-songs-bucket");
+    let expires_in = 100000;
 
+    let expires_in = Duration::from_secs(expires_in);
 
+    let key = format!("{}.mp3", params.uuid);
+    let cdn_base_link = crate::utilities::get_env_variable("CDN_ENDPOINT", "");
+    let cdn_serve_link = format!("{}/{}", cdn_base_link, key);
+
+    //get presigned link
+    let presigned_request = client
+        .get_object()
+        .bucket(bucket)
+        .key(key)
+        .presigned(PresigningConfig::expires_in(expires_in).unwrap())
+        .await;
+
+    let response = match presigned_request {
+        Ok(x) => warp::reply::with_status(
+            warp::reply::with_header(
+                warp::reply::json(&cdn_serve_link.to_string()),
+                "x-frame-options",
+                "DENY",
+            ),
+            StatusCode::OK,
+        ),
+
+        Err(e) => warp::reply::with_status(
+            warp::reply::with_header(warp::reply::json(&e.to_string()), "x-frame-options", "DENY"),
+            StatusCode::INTERNAL_SERVER_ERROR,
+        ),
+    };
+    Ok(response)
+}

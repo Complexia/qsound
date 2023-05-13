@@ -78,6 +78,15 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and(warp::body::stream())
         .and_then(crate::utilities::aws::upload_stream)
         .boxed();
+
+    let get_s3_link = song_base
+        .and(warp::path!("get-presigned-link"))
+        .and(warp::post())
+        .and(crate::routes::json_body::<models::songs::FetchSong>())
+        .and_then(crate::utilities::aws::get_presigned_uri)
+        .boxed();
+
+    
         
 
     get_song
@@ -89,6 +98,8 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .or(get_presigned_link_for_download)
         .boxed()
         .or(upload_stream)
+        .boxed()
+        .or(get_s3_link)
         .boxed()
 
         
