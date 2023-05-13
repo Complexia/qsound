@@ -2,6 +2,8 @@ Keep calm and love Lisbon
 
 If your app isn't breaking at least once a day, you aren't shipping fast enough
 
+Use ## qsound-ui-nonapp ##
+
 prize pools:
 
 1inch - simply use 1inch API
