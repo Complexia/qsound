@@ -40,10 +40,10 @@ pub async fn upload_to_s3<T: serde::Serialize>(
     };
 
     let pyspaces_endpoint = crate::utilities::get_env_variable("PYSPACES_ENDPOINT", "localhost:4030");
-    let endpoint = format!("http://{}/upload_to_s3", pyspaces_endpoint);
+    let endpoint = format!("http://{}/upload-to-s3", pyspaces_endpoint);
     let request_wrapper = RequestWrapper {
         entity: entity.to_string(),
-        endpoint: "http://localhost:8000/upload_to_s3".to_string(),
+        endpoint,
         content: &upload_to_s3_request,
     };
 
@@ -81,10 +81,12 @@ pub async fn download_from_s3<T: serde::Serialize>(
         }
     };
     
+    let pyspaces_endpoint = crate::utilities::get_env_variable("PYSPACES_ENDPOINT", "localhost:4030");
+    let endpoint = format!("http://{}/download-from-s3", pyspaces_endpoint);
 
     let request_wrapper = RequestWrapper {
         entity: entity.to_string(),
-        endpoint: "http://localhost:8000/download-from-s3".to_string(),
+        endpoint,
         content: &download_from_s3_request,
     };
 
