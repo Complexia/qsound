@@ -121,4 +121,5 @@ pub struct FindSongRequest {
 pub struct UploadSongRequest {
     pub name: Option<String>,
     pub content: Vec<u8>,
+    pub song: Option<Song>,
 }

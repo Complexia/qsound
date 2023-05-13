@@ -41,13 +41,14 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and_then(handlers::songs::fetch_song_from_spaces)
         .boxed();
 
+    
     let upload_song = song_base
         .and(warp::path!("upload-song"))
         .and(warp::post())
         .and(crate::routes::json_body::<models::songs::UploadSongRequest>())
         .and(warp::header::headers_cloned())
-        .and_then(handlers::songs::upload_song_to_spaces)
-        .boxed(); 
+        .and_then(handlers::songs::upload_song)
+        .boxed();
 
     get_song.boxed().or(upload_song).boxed()
 }
