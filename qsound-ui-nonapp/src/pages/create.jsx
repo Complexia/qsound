@@ -3,6 +3,8 @@ import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+const axios = require('axios');
+
 const CreateSong = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [uuid, setUuid] = useState("");
@@ -24,6 +26,7 @@ const CreateSong = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("helloooo bo")
     e.preventDefault();
 
     // Create FormData object to send file and data
@@ -35,12 +38,23 @@ const CreateSong = () => {
     formData.append("artist", artist);
     formData.append("file", file);
 
+    const payload = {
+      uuid,
+      irsc,
+      description,
+      title,
+      artist,
+      file,
+    
+    }
+
+    const test = {
+
+    }
+
     try {
       // Send data to the API endpoint
-      const response = await fetch("/upload-song-spaces", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await axios.post('/song/upload-song', payload);
 
       // Handle the response
       if (response.ok) {
@@ -136,7 +150,9 @@ const CreateSong = () => {
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="p-4 bg-purple-800 h-[50px] text-white font-semibold flex items-center justify-center rounded-lg mt-16 hover:text-black hover:bg-white transition ease-in-out delay-100 duration-200 hover:scale-105">
+            <button className="p-4 bg-purple-800 h-[50px] text-white font-semibold flex items-center justify-center rounded-lg mt-16 hover:text-black hover:bg-white transition ease-in-out delay-100 duration-200 hover:scale-105" 
+              onClick={handleSubmit}
+            >
               <FontAwesomeIcon
                 icon={faMusic}
                 width={20}

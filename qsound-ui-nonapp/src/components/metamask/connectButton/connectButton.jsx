@@ -148,7 +148,7 @@ export default function ConnectButton() {
         </button>
       ) : (
         currentAccount != "" && (
-          <button className="flex bg-[#D22B2B] rounded-lg">
+          <div className="flex bg-[#D22B2B] rounded-lg">
             <button
               className=" p-2 text-xs font-semibold my-auto "
               onClick={() => {
@@ -163,7 +163,7 @@ export default function ConnectButton() {
               height={12}
               className="my-auto mr-2"
             />
-          </button>
+          </div>
         )
       )}
       <button
