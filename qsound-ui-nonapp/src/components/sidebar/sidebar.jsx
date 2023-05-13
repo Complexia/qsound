@@ -11,6 +11,7 @@ import {
   faPlusCircle,
   faChartBar,
 } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 const Sidebar = () => {
   const navItems = [
     { name: "Home", href: "/", icon: faHome },
@@ -21,7 +22,7 @@ const Sidebar = () => {
   ];
 
   const [showIntegrations, setShowIntegrations] = useState(false);
-
+  const [isPremium, setIsPremium] = useState(true);
   const toggleIntegrations = () => {
     setShowIntegrations(!showIntegrations);
   };
@@ -29,7 +30,18 @@ const Sidebar = () => {
   return (
     <div className=" h-full pt-1 px-5 bg-gradient-to-b from-purple-800 to-black transition-all duration-300 z-10">
       <div className="p-4">
-        <Link href="/">
+        <Link href="/" className="flex">
+          {isPremium && (
+            <Image
+              src={
+                "https://media.istockphoto.com/id/1266423143/vector/premium-premium-in-royal-style-on-gold-background-luxury-template-design-vector-stock.jpg?s=612x612&w=0&k=20&c=j2q53cnoGhjf7dPatZCvolSrwjMIAofl2kC0PW7fFig="
+              }
+              alt="Image"
+              height={20}
+              width={20}
+              className=" rounded-lg my-auto mr-1"
+            />
+          )}
           <span className="cursor-pointer text-white font-bold text-2xl">
             QSOUND
           </span>
@@ -51,7 +63,6 @@ const Sidebar = () => {
               <Link href={item.href}>
                 <div className="flex ">
                   <FontAwesomeIcon
-                    key={index}
                     icon={item.icon}
                     width={20}
                     className="ml-2"

@@ -17,6 +17,7 @@ const Song = () => {
   const [premium, setPremium] = useState(true);
   const [ownsSong, setOwnsSong] = useState(false);
   const [ownsApe, setOwnsApe] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
   return (
     <Layout>
       <div className="flex ml-4 ">
@@ -36,7 +37,7 @@ const Song = () => {
           </h1>
         </div>
         <div className="flex flex-col justify-center ml-4 mt-8">
-          {premium || ownsSong || ownsApe ? (
+          {isCreator || premium || ownsSong || ownsApe ? (
             <FontAwesomeIcon
               width={45}
               height={45}

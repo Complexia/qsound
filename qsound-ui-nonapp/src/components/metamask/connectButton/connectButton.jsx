@@ -107,7 +107,7 @@ export default function ConnectButton() {
             );
           }}
         />
-      )}{" "}
+      )}
       {showAccountOptions && (
         <AccountOptionsModal
           setShowChainModal={() => {
