@@ -1,5 +1,7 @@
 use reqwest::{header::HeaderMap, StatusCode};
 use warp::http::request;
+extern crate futures; // 0.3.5
+extern crate hyper; // 0.13.6
 
 use crate::models::songs::{FetchSong, FilenameStruct, UploadSongRequest};
 
@@ -39,6 +41,7 @@ pub async fn upload_song(
     request: UploadSongRequest,
     headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    println!("uploading song...");
     let mut request = request;
     let song_uuid = uuid::Uuid::new_v4().to_string();
     request.song.as_mut().unwrap().uuid = Some(song_uuid);
@@ -118,3 +121,39 @@ pub async fn get_presigned_link_for_download(
     };
     Ok(response)
 }
+
+
+
+// async fn upload_song_new(mut stream: warp::hyper::body::BytesStream) -> Result<impl warp::Reply, warp::Rejection> {
+//     // Create a file to write the uploaded data
+//     let file_path = "path/to/save/file.mp4";
+//     let mut file = tokio::fs::File::create(file_path).await.map_err(|e| {
+//         eprintln!("Error creating file: {:?}", e);
+//         warp::reject::reject()
+//     })?;
+
+//     // Process the file stream in chunks
+//     while let Some(result) = stream.next().await {
+//         let chunk = result.map_err(|e| {
+//             eprintln!("Error reading stream chunk: {:?}", e);
+//             warp::reject::reject()
+//         })?;
+
+//         // Write the chunk to the file
+//         file.write_all(&chunk).await.map_err(|e| {
+//             eprintln!("Error writing to file: {:?}", e);
+//             warp::reject::reject()
+//         })?;
+//     }
+
+//     // File upload completed successfully
+//     Ok(warp::reply::reply())
+// }
+
+
+
+
+
+
+
+

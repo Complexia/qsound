@@ -42,6 +42,8 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and_then(handlers::songs::fetch_song_from_spaces)
         .boxed();
 
+    let max_payload_size = 10 * 1024 * 1024;
+    
     let upload_song = song_base
         .and(warp::path!("upload-song"))
         .and(warp::post())
@@ -66,6 +68,18 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and_then(handlers::songs::get_presigned_link_for_download)
         .boxed();
 
+    let upload_stream = song_base 
+        .and(warp::path("upload-stream"))
+        .and(warp::query::<crate::models::songs::UploadParams>())
+        // .and(warp::path::end())
+        .and(warp::post())
+        // .and(warp::multipart::form().max_length(5_000_000_000))
+        
+        .and(warp::body::stream())
+        .and_then(crate::utilities::aws::upload_stream)
+        .boxed();
+        
+
     get_song
         .boxed()
         .or(upload_song)
@@ -74,6 +88,10 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .boxed()
         .or(get_presigned_link_for_download)
         .boxed()
+        .or(upload_stream)
+        .boxed()
+
+        
 }
 
 pub fn routes() -> BoxedFilter<(impl warp::Reply,)> {
@@ -86,5 +104,6 @@ fn json_body<T: serde::de::DeserializeOwned + Send>(
 ) -> impl Filter<Extract = (T,), Error = warp::Rejection> + Clone {
     warp::body::content_length_limit(CONTENTSIZE).and(warp::body::json::<T>())
 }
+
 
 const CONTENTSIZE: u64 = 1024 * 10000;

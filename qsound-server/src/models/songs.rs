@@ -5,10 +5,12 @@ pub struct Song {
     //optional because it is not passed from the frontend, but generated server side
     pub uuid: Option<String>,
     pub name: Option<String>,
+    pub irsc: Option<String>,
     pub artist: Option<String>,
     pub label: Option<String>,
     pub release_date: Option<String>,
     pub duration: Option<String>,
+    pub description: Option<String>,
     //this is updated when the song NFT is minted by the user
     pub nft_contract_address: Option<String>,
     //this is the user that bought the NFT of the song
@@ -24,6 +26,8 @@ impl Default for Song {
             name: None,
             artist: None,
             label: None,
+            description: None,
+            irsc: None,
             release_date: None,
             duration: None,
             nft_contract_address: None,
@@ -128,4 +132,10 @@ pub struct UploadSongRequest {
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct FilenameStruct {
     pub filename: String,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct UploadParams {
+    pub name: Option<String>,
+    pub song: Option<Song>,
 }

@@ -30,3 +30,14 @@ pub struct SpacesRequest {
     pub spaces_endpoint: String,
     pub filename: String,
 }
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct Part {
+    pub e_tag: String,
+    pub part_number: i32,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct UploadResponse {
+    pub uploaded_parts: Vec<Part>,
+}

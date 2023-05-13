@@ -2,6 +2,8 @@ pub mod authentication;
 pub mod mongo;
 pub mod s3;
 pub mod songs;
+pub mod aws_s3;
+pub mod aws;
 
 use dotenv::dotenv;
 use std::env;
