@@ -1,16 +1,11 @@
 import Layout from "@/components/layout/layout";
-import { css } from "@emotion/react";
 import { useState } from "react";
-import { useTrail, animated } from "react-spring";
 import "./Home.module.css";
-import Marquee from "react-fast-marquee";
 import Image from "next/image";
-import SongCard from "./SongCard";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 const Home = () => {
   const [isPaused, setIsPaused] = useState(false);
-  const divCount = 10;
   const divs = [
     {
       name: "StarBoy",
@@ -51,30 +46,39 @@ const Home = () => {
   const startIndex = currentPage * itemsPerPage;
   const visibleDivs = divs.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
-
-  const trail = useTrail(divCount, {
-    from: { transform: "translateX(-100%)" },
-    to: { transform: "translateX(100%)" },
-    reset: true,
-    reverse: true,
-    delay: 1000,
-    config: { duration: 5000 },
-    pause: isPaused,
-  });
-
   return (
     <Layout>
-
       {/* for you songs */}
-      <h1 className="font-bold text-2xl ml-3 mb-3">For You ✨</h1>
-      <div className="flex flex-row ml-6 flex-wrap">
+      <div className="flex justify-between">
+        <h1 className="font-bold text-2xl ml-3 mb-3 my-6">For You ✨</h1>
+        {divs.length > 6 && (
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"flex"}
+            pageClassName={"mr-1"}
+            previousClassName={"mr-1"}
+            nextClassName={"ml-1"}
+            activeClassName={"font-bold"}
+            previousLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            nextLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            pageLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+          />
+        )}
+      </div>
+      <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
           <div
             key={index}
@@ -95,34 +99,36 @@ const Home = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-6">
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={'flex'}
-          pageClassName={'mr-2'}
-          previousClassName={'mr-2'}
-          nextClassName={'ml-2'}
-          activeClassName={'font-bold'}
-          previousLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          nextLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          pageLinkClassName={'bg-transparent hover:opacity-30 px-3 py-1 rounded'}
-        />
+      <div className="flex justify-between">
+        <h1 className="font-bold text-2xl ml-3 my-6">Popular Songs 🎉</h1>
+        {divs.length > 6 && (
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"flex"}
+            pageClassName={"mr-1"}
+            previousClassName={"mr-1"}
+            nextClassName={"ml-1"}
+            activeClassName={"font-bold"}
+            previousLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            nextLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            pageLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+          />
+        )}
       </div>
-      
-      {/* songs for popular songs */}
-      <h1 className="font-bold text-2xl ml-3 mt-10 mb-3">Popular Songs 🎉</h1>
-      <div className="flex flex-row ml-6 flex-wrap">
+      <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
           <div
             key={index}
@@ -143,35 +149,36 @@ const Home = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-6">
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={'flex'}
-          pageClassName={'mr-2'}
-          previousClassName={'mr-2'}
-          nextClassName={'ml-2'}
-          activeClassName={'font-bold'}
-          previousLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          nextLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          pageLinkClassName={'bg-transparent hover:opacity-30 px-3 py-1 rounded'}
-        />
-      </div> 
-      
-
-      {/* songs for top artists */}
-      <h1 className="font-bold text-2xl ml-3 mt-10 mb-3">Top Artists 🎤</h1>
-      <div className="flex flex-row ml-6 flex-wrap">
+      <div className="flex justify-between">
+        <h1 className="font-bold text-2xl ml-3 my-6">Top Artists 🎤</h1>
+        {divs.length > 6 && (
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"flex"}
+            pageClassName={"mr-1"}
+            previousClassName={"mr-1"}
+            nextClassName={"ml-1"}
+            activeClassName={"font-bold"}
+            previousLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            nextLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            pageLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+          />
+        )}
+      </div>
+      <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
           <div
             key={index}
@@ -192,34 +199,36 @@ const Home = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-6">
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={'flex'}
-          pageClassName={'mr-2'}
-          previousClassName={'mr-2'}
-          nextClassName={'ml-2'}
-          activeClassName={'font-bold'}
-          previousLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          nextLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          pageLinkClassName={'bg-transparent hover:opacity-30 px-3 py-1 rounded'}
-        />
+      <div className="flex justify-between">
+        <h1 className="font-bold text-2xl ml-3 my-6">Owned Songs ✅</h1>
+        {divs.length > 6 && (
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"flex"}
+            pageClassName={"mr-1"}
+            previousClassName={"mr-1"}
+            nextClassName={"ml-1"}
+            activeClassName={"font-bold"}
+            previousLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            nextLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+            pageLinkClassName={
+              "bg-transparent hover:opacity-30 px-3 py-1 rounded font-bold"
+            }
+          />
+        )}
       </div>
-
-      {/* songs for owned songs */}    
-      <h1 className="font-bold text-2xl ml-3 mt-10 mb-3">Owned Songs ✅</h1>
-      <div className="flex flex-row ml-6 flex-wrap">
+      <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
           <div
             key={index}
@@ -238,31 +247,6 @@ const Home = () => {
             </h1>
           </div>
         ))}
-      </div>
-
-      <div className="flex justify-center mt-6">
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={'flex'}
-          pageClassName={'mr-2'}
-          previousClassName={'mr-2'}
-          nextClassName={'ml-2'}
-          activeClassName={'font-bold'}
-          previousLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          nextLinkClassName={
-            'bg-transparent hover:opacity-30 px-3 py-1 rounded'
-          }
-          pageLinkClassName={'bg-transparent hover:opacity-30 px-3 py-1 rounded'}
-        />
       </div>
     </Layout>
   );

@@ -13,11 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const Sidebar = () => {
   const navItems = [
-    { name: "Home", href: "/mymusic", icon: faHome },
-    { name: "Your songs", href: "/analytics", icon: faMusic },
-    { name: "Top Artists", href: "/analytics", icon: faStar },
+    { name: "Home", href: "/", icon: faHome },
+    { name: "Your songs", href: "/songs", icon: faMusic },
     { name: "Portfolio", href: "/portfolio", icon: faBriefcase },
-    { name: "Create Album", href: "/analytics", icon: faPlusCircle },
+    { name: "Create Song", href: "/create", icon: faPlusCircle },
     { name: "Analytics", href: "/analytics", icon: faChartBar },
   ];
 
@@ -42,7 +41,7 @@ const Sidebar = () => {
             {index == 0 && (
               <h1 className="font-bold px-4 py-4 text-lg">General</h1>
             )}
-            {index == 3 && (
+            {index == 2 && (
               <h1 className="font-bold px-4 py-4 text-lg">Artist</h1>
             )}
             <li
