@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Song {
@@ -37,56 +37,56 @@ impl Song {
     pub fn as_bytes(&self) -> Vec<u8> {
         // Serialize the struct fields into a byte vector
         let mut bytes = Vec::new();
-        
+
         // Serialize the uuid field
         bytes.extend_from_slice(self.uuid.to_owned().unwrap().as_bytes());
         bytes.push(b'\0'); // Add a null byte as a separator
-        
+
         // Serialize the name field
         if let Some(name) = &self.name {
             bytes.extend_from_slice(name.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the artist field
         if let Some(artist) = &self.artist {
             bytes.extend_from_slice(artist.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the label field
         if let Some(label) = &self.label {
             bytes.extend_from_slice(label.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the release_date field
         if let Some(release_date) = &self.release_date {
             bytes.extend_from_slice(release_date.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the duration field
         if let Some(duration) = &self.duration {
             bytes.extend_from_slice(duration.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the nft_contract_address field
         if let Some(nft_contract_address) = &self.nft_contract_address {
             bytes.extend_from_slice(nft_contract_address.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the owner_address field
         if let Some(owner_address) = &self.owner_address {
             bytes.extend_from_slice(owner_address.as_bytes());
         }
         bytes.push(b'\0');
-        
+
         // Serialize the original_owner_address field
         bytes.extend_from_slice(self.original_owner_address.as_bytes());
-        
+
         bytes
     }
 }
@@ -123,4 +123,9 @@ pub struct UploadSongRequest {
     pub name: Option<String>,
     pub content: Vec<u8>,
     pub song: Option<Song>,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct FilenameStruct {
+    pub filename: String,
 }

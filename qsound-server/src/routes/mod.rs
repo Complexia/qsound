@@ -21,7 +21,9 @@ pub fn user_filter() -> BoxedFilter<(impl warp::Reply,)> {
     let authenticate = user_base
         .and(warp::path!("authenticate"))
         .and(warp::post())
-        .and(crate::routes::json_body::<models::users::AuthenticationRequest>())
+        .and(crate::routes::json_body::<
+            models::users::AuthenticationRequest,
+        >())
         .and(warp::header::headers_cloned())
         .and_then(handlers::users::authenticate)
         .boxed();
@@ -30,7 +32,6 @@ pub fn user_filter() -> BoxedFilter<(impl warp::Reply,)> {
 }
 
 pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
-
     let song_base = warp::path("song");
 
     let get_song = song_base
@@ -41,7 +42,6 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and_then(handlers::songs::fetch_song_from_spaces)
         .boxed();
 
-    
     let upload_song = song_base
         .and(warp::path!("upload-song"))
         .and(warp::post())
@@ -50,16 +50,36 @@ pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
         .and_then(handlers::songs::upload_song)
         .boxed();
 
-    get_song.boxed().or(upload_song).boxed()
-}
+    let get_presigned_link_for_upload = song_base
+        .and(warp::path!("get-presigned-link-for-upload"))
+        .and(warp::post())
+        .and(crate::routes::json_body::<models::songs::FilenameStruct>())
+        .and(warp::header::headers_cloned())
+        .and_then(handlers::songs::get_presigned_link_for_upload)
+        .boxed();
 
+    let get_presigned_link_for_download = song_base
+        .and(warp::path!("get-presigned-link-for-download"))
+        .and(warp::post())
+        .and(crate::routes::json_body::<models::songs::FilenameStruct>())
+        .and(warp::header::headers_cloned())
+        .and_then(handlers::songs::get_presigned_link_for_download)
+        .boxed();
+
+    get_song
+        .boxed()
+        .or(upload_song)
+        .boxed()
+        .or(get_presigned_link_for_upload)
+        .boxed()
+        .or(get_presigned_link_for_download)
+        .boxed()
+}
 
 pub fn routes() -> BoxedFilter<(impl warp::Reply,)> {
     let mut headers = HeaderMap::new();
     headers.insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
-    user_filter()
-        .boxed()
-        
+    user_filter().boxed().or(song_filter()).boxed()
 }
 
 fn json_body<T: serde::de::DeserializeOwned + Send>(

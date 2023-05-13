@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct UploadToS3Request {
@@ -28,6 +28,5 @@ pub struct SpacesRequest {
     pub spaces_secret_key: String,
     pub spaces_region: String,
     pub spaces_endpoint: String,
+    pub filename: String,
 }
-
-

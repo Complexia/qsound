@@ -1,7 +1,7 @@
-pub mod mongo;
 pub mod authentication;
-pub mod songs;
+pub mod mongo;
 pub mod s3;
+pub mod songs;
 
 use dotenv::dotenv;
 use std::env;
@@ -18,12 +18,11 @@ pub fn convert_from_value_to_bytes(value: serde_json::Value) -> Vec<u8> {
         "".to_string()
     });
 
-    let bytes: Vec<u8> =
-        serde_json::from_str(&serialized).unwrap_or_else(|error| {
-            eprintln!("Failed to deserialize request: {}", error);
-            let empty_vec: Vec<u8> = Vec::new();
-            empty_vec
-        });
+    let bytes: Vec<u8> = serde_json::from_str(&serialized).unwrap_or_else(|error| {
+        eprintln!("Failed to deserialize request: {}", error);
+        let empty_vec: Vec<u8> = Vec::new();
+        empty_vec
+    });
 
     bytes
 }

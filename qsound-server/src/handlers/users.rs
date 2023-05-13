@@ -4,8 +4,6 @@ pub async fn get_user(
     request: crate::models::users::FindUserRequest,
     _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    
-    
     let res = crate::utilities::mongo::find_user(request).await;
 
     let response = match res {
@@ -26,8 +24,6 @@ pub async fn authenticate(
     request: crate::models::users::AuthenticationRequest,
     _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    
-    
     let res = crate::utilities::authentication::authenticate(request).await;
 
     let response = match res {

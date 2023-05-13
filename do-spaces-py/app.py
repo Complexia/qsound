@@ -39,9 +39,17 @@ def download_song():
     
     return file
 
-@app.route('/get-presigned-download-link', methods=['POST'])
+@app.route('/get-presigned-link-for-download', methods=['POST'])
 def get_presigned_download_link():
-    req = request.json  
+    print("hello")
+    print(request)
+    try: 
+        req = request.json  
+    except Exception as e:
+        print(e)
+        req = request.get_json()
+
+    print(req)
     endpoint = req['endpoint']
     spaces_key = req['spaces_key']
     spaces_secret = req['spaces_secret']
@@ -54,7 +62,7 @@ def get_presigned_download_link():
 
     return url                                
 
-@app.route('/get-presigned-upload-link', methods=['POST'])
+@app.route('/get-presigned-link-for-upload', methods=['POST'])
 def get_presigned_upload_link():
     req = request.json  
     endpoint = req['endpoint']

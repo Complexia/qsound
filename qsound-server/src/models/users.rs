@@ -20,7 +20,6 @@ pub struct AuthenticationRequest {
     pub signature: Option<String>,
 }
 
-
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct User {
     pub address: String,

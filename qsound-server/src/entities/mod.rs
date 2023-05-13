@@ -3,17 +3,21 @@ pub mod pyspaces;
 use anyhow::anyhow;
 use anyhow::Result;
 use reqwest::header::HeaderMap;
+use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use crate::models::RequestWrapper;
-
-
 
 // Sends a request to the entity with headers and returns a serialized struct result
 pub async fn request<'a, T: serde::Serialize>(
     params: RequestWrapper<'a, T>,
-) -> Result<serde_json::Value> {
+) -> Result<serde_json::Value> 
+where
+    T: Serialize + DeserializeOwned,
+{
+
     //remove content-length as it may have changed with our serialization
-    
+
 
     println!("Sending request to {0}", params.entity);
 
@@ -22,13 +26,10 @@ pub async fn request<'a, T: serde::Serialize>(
 
     let client = reqwest::Client::new();
 
-    
-
-    
-    let endpoint = params.endpoint; 
+    let endpoint = params.endpoint.to_owned();
 
     let headers = HeaderMap::new();
-    let response = match client.post(endpoint).headers(headers).send().await {
+    let response = match client.post(endpoint).json(&params).headers(headers).send().await {
         Ok(x) => x,
         Err(x) => return Err(anyhow!("Error: {}", x.to_string())),
     };
@@ -65,5 +66,3 @@ pub async fn request<'a, T: serde::Serialize>(
         }
     }
 }
-
-
