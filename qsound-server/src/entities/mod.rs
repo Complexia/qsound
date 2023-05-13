@@ -21,9 +21,6 @@ where
 
     println!("Sending request to {0}", params.entity);
 
-    // get url out of the mutex
-    // lock is indented so it goes out of scope and releases immediately
-
     let client = reqwest::Client::new();
 
     let endpoint = params.endpoint.to_owned();
