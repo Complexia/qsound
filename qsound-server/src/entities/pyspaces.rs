@@ -51,9 +51,9 @@ pub async fn upload_to_s3<T: serde::Serialize>(
 
     let response = crate::entities::request(request_wrapper).await?;
 
-    
 
-    Ok(serde_json::to_value(response).unwrap())
+    Ok(response)
+
 }
 
 pub async fn download_from_s3<T: serde::Serialize>(

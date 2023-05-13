@@ -13,7 +13,7 @@ pub async fn fetch_song(
 
     //do some stuff here to fetch the track from s3 using its uuid
     //res is supposed to be a bytestream Vec<u8>
-    let res = match crate::utilities::songs::fetch_song(request.uuid) {
+    let res = match crate::utilities::songs::fetch_song(request.uuid).await {
         Ok(x) => Ok(x),
         Err(e) => Err(e)
     };
