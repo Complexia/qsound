@@ -42,12 +42,7 @@ contract QSoundSongFactoryV2 is Ownable {
     event MintCountUpdated(uint256 indexed songId, uint256 newMintCount);
 
     // Event triggered when a token is minted
-    event TokenMinted(
-        uint256 indexed songId,
-        address indexed account,
-        uint256 indexed tokenId,
-        uint256 timestamp
-    );
+    event TokenMinted(uint256 indexed songId, address indexed account, uint256 timestamp);
 
     // Event triggered when owner claims their rewards
     event IncomeClaimed(uint256 amount, address claimer, uint256 timestamp);
@@ -88,7 +83,8 @@ contract QSoundSongFactoryV2 is Ownable {
             _mintCount,
             _tokenPrice,
             _allowMint,
-            msg.sender
+            msg.sender,
+            address(this)
         );
         songs[songId] = newSong;
         _tokenIdCounter.increment();
@@ -178,8 +174,13 @@ contract QSoundSongFactoryV2 is Ownable {
      * @param to The recipient of the minted token.
      */
     function mint(uint256 songId, address to) public payable {
-        uint256 tokenId = songs[songId].mint{value: msg.value}(to);
-        emit TokenMinted(songId, to, tokenId, block.timestamp);
+        (bool success, bytes memory data) = address(songs[songId]).call{value: msg.value}(
+            abi.encodeWithSignature("mint(address)", msg.sender)
+        );
+
+        if (success) {
+            emit TokenMinted(songId, to, block.timestamp);
+        }
     }
 
     /**

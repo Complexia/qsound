@@ -15,6 +15,7 @@ contract QSoundPass is ERC721, Pausable, Ownable {
 
     event SoundPassFeeSet(uint256 newFee);
     event FundsClaimed(uint256 funds, uint256 timestamp);
+    event SoundPassClaimed(uint256 indexed tokenId, address claimer, uint256 timestamp);
 
     /**
      * @dev Initializes the QSoundPass contract with the specified fee.
@@ -96,6 +97,7 @@ contract QSoundPass is ERC721, Pausable, Ownable {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
+        emit SoundPassClaimed(tokenId, to, block.timestamp);
     }
 
     /**
@@ -111,8 +113,11 @@ contract QSoundPass is ERC721, Pausable, Ownable {
         uint256 tokenId,
         uint256 batchSize
     ) internal override whenNotPaused {
-        require(false, "Not Transferrable");
-        // super._beforeTokenTransfer(from, to, tokenId, batchSize);
+        if (from == address(0)) {
+            super._beforeTokenTransfer(from, to, tokenId, batchSize);
+        } else {
+            require(false, "Not Transferrable");
+        }
     }
 
     /**

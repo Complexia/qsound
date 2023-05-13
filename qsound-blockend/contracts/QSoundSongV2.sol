@@ -16,6 +16,7 @@ contract QSoundSongV2 is ERC721 {
     uint256 private mintCount;
     bool private allowMint;
     address private owner;
+    address private factoryContract;
 
     Counters.Counter private _tokenIdCounter;
 
@@ -24,17 +25,19 @@ contract QSoundSongV2 is ERC721 {
         uint256 _mintCount,
         uint256 _tokenPrice,
         bool _allowMint,
-        address creator
+        address creator,
+        address _factoryContract
     ) ERC721("QSoundSongV2", "QSS") {
         mintCount = _mintCount;
         _tokenURI = _uri;
         mintPrice = _tokenPrice;
         owner = creator;
         allowMint = _allowMint;
+        factoryContract = _factoryContract;
     }
 
     modifier onlyOwner() {
-        require(tx.origin == owner, "Unauthorized");
+        require(tx.origin == owner && msg.sender == factoryContract, "Unauthorized");
         _;
     }
 
