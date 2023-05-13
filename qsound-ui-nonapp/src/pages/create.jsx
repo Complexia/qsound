@@ -12,6 +12,8 @@ const CreateSong = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [artist, setArtist] = useState("");
+  const [fileBytes, setFileBytes] = useState(null);
+  const [songName, setSongName] = useState("");
   const [file, setFile] = useState(null);
   const handleFocus = () => {
     setIsFocused(true);
@@ -21,12 +23,26 @@ const CreateSong = () => {
     setIsFocused(false);
   };
   const handleFileChange = (event) => {
+
     const file = event.target.files[0];
     setFile(file);
+
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = function (event) {
+        const fileBytes = new Uint8Array(event.target.result);
+        setFileBytes(fileBytes);
+      };
+  
+      reader.readAsArrayBuffer(file);
+    } 
+    
+    
   };
 
   const handleSubmit = async (e) => {
-    console.log("helloooo bo")
+    
     e.preventDefault();
 
     // Create FormData object to send file and data
@@ -39,18 +55,18 @@ const CreateSong = () => {
     formData.append("file", file);
 
     const payload = {
-      uuid,
-      irsc,
-      description,
-      title,
-      artist,
-      file,
-    
+      name: title,
+      content: fileBytes,
+      song : {
+        uuid: uuid,
+        irsc: irsc,
+        description: description,
+        artist: artist,
+        original_owner_address: "0x1234567890123456789012345678901234567890", //get this from wallet
+      }
     }
 
-    const test = {
-
-    }
+    console.log(payload);
 
     try {
       // Send data to the API endpoint
@@ -65,6 +81,7 @@ const CreateSong = () => {
         setTitle("");
         setDescription("");
         setArtist("");
+        setSongName("");
         setFile(null);
       } else {
         console.error("Failed to upload song.");
