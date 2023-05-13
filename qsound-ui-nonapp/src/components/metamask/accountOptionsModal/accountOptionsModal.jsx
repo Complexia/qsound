@@ -6,7 +6,7 @@ function AccountOptionsModal({ setShowChainModal, disconnect }) {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto backdrop-blur-md">
       <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-slate-500  rounded-xl  min-w-[300px] min-h-[100] p-4 ">
+        <div className="bg-[#343434]  rounded-xl  min-w-[300px] min-h-[100] p-4 ">
           <div className="flex justify-between">
             <h1 className="text-white text-sm font-semibold ">
               Account Options
