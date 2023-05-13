@@ -36,7 +36,7 @@ const Sidebar = () => {
         </Link>
       </div>
       <ul className="h-full mt-3">
-        {navItems.map((item, index, key) => (
+        {navItems.map((item, index) => (
           <>
             {index == 0 && (
               <h1 className="font-bold px-4 py-4 text-lg">General</h1>
@@ -48,7 +48,7 @@ const Sidebar = () => {
               key={index}
               className="mb-2 hover:bg-purple-800 cursor-pointer rounded-lg"
             >
-              <Link key={index}href={item.href}>
+              <Link href={item.href}>
                 <div className="flex ">
                   <FontAwesomeIcon
                     key={index}

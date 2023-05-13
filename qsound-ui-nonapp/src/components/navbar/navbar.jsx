@@ -1,4 +1,5 @@
 import ConnectButton from "@/components/metamask/connectButton/connectButton";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 const Navbar = () => {
@@ -12,9 +13,21 @@ const Navbar = () => {
         </div>
         <div className="flex items-center">
           <div className="px-4">
-            <Link href="/">
-              <h1 className="text-white font-bold text-lg">Purchase Pass</h1>
-            </Link>
+            <button
+              onClick={() => {}}
+              className="flex text-white  bg-[#FFC000] rounded-md px-2 py-1 hover:text-[#FFC000] hover:bg-[#4D2B0D] transition ease-in-out delay-150 duration-300 "
+            >
+              <Image
+                src={
+                  "https://media.istockphoto.com/id/1266423143/vector/premium-premium-in-royal-style-on-gold-background-luxury-template-design-vector-stock.jpg?s=612x612&w=0&k=20&c=j2q53cnoGhjf7dPatZCvolSrwjMIAofl2kC0PW7fFig="
+                }
+                alt="Image"
+                height={20}
+                width={20}
+                className=" rounded-lg my-auto"
+              />
+              <h1 className="font-semibold text-lg ml-3">Purchase Pass</h1>
+            </button>
           </div>
 
           <ConnectButton />
