@@ -46,7 +46,7 @@ def get_presigned_download_link():
     spaces_key = req['spaces_key']
     spaces_secret = req['spaces_secret']
     client = s3.create_client(endpoint, spaces_key, spaces_secret)
-    bucket_name = 'songs'
+    bucket_name = req['bucket_name'] 
     file_name = req['file_name']
     
     
@@ -61,7 +61,7 @@ def get_presigned_upload_link():
     spaces_key = req['spaces_key']
     spaces_secret = req['spaces_secret']
     client = s3.create_client(endpoint, spaces_key, spaces_secret)
-    bucket_name = 'songs'
+    bucket_name = req['bucket_name']
     file_name = req['file_name']
     
     

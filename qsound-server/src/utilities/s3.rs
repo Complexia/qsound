@@ -36,3 +36,8 @@ pub async fn fetch_from_s3(request: String) -> Result<Vec<u8>> {
     
     Ok(bytes)
 }
+
+pub async fn get_presigned_link_for_upload() -> Result<String> {
+    let presigned_link = crate::entities::pyspaces::get_presigned_link_for_upload().await?;
+    Ok(presigned_link)
+}
