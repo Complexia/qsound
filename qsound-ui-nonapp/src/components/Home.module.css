@@ -1,0 +1,46 @@
+@keyframes marquee {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -900%;
+  }
+}
+.animate {
+  width: 1800%;
+  animation: marquee 20s linear infinite;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.logo a {
+  width: 80px;
+  -webkit-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@screen lg {
+  @keyframes marquee {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -375%;
+    }
+  }
+  .animate {
+    width: 750%;
+    animation: marquee 20s linear infinite;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  .logo a {
+    width: 100px;
+    -webkit-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+.animate:hover {
+  animation-play-state: paused;
+}
+
+.logo a:hover {
+  transform: scale(1.3);
+}
