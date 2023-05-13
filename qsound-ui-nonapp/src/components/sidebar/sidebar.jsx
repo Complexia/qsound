@@ -17,7 +17,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 h-full w-1/6 bg-gradient-to-b from-purple-800 to-black transition-all duration-300 z-10">
+    <div className="fixed left-0  h-full w-1/6 bg-gradient-to-b from-purple-800 to-black transition-all duration-300 z-10">
       <div className="p-4">
         <Link href="/">
           <span className="cursor-pointer text-white font-bold text-2xl">QSOUND</span>

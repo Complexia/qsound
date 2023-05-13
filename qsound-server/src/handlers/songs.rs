@@ -1,13 +1,13 @@
 use reqwest::{header::HeaderMap, StatusCode};
 
-use crate::models::songs::FetchSong;
+use crate::models::songs::{FetchSong, UploadSongRequest};
 
 //this function is for actually streaming the song
 //each time this is called - update the DB with the song amount of streams by 1. 
 // then pay out the owner address of the song
-pub async fn fetch_song(
+pub async fn fetch_song_from_spaces(
     request: FetchSong,
-    _headers: HeaderMap,
+    headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     //check auth header functionality
 
@@ -30,4 +30,31 @@ pub async fn fetch_song(
         ),
     };
     Ok(response)
+}
+
+//this fetches song info
+pub async fn upload_song_to_spaces(
+    request: UploadSongRequest,
+    headers: HeaderMap,
+) -> Result<impl warp::Reply, warp::Rejection> {
+   
+
+    let res = match crate::utilities::songs::upload_song(request).await {
+        Ok(x) => Ok(x),
+        Err(e) => Err(e)
+    };
+
+    
+    let response = match res {
+        Ok(x) => warp::reply::with_status(
+            warp::reply::with_header(warp::reply::json(&x), "x-frame-options", "DENY"),
+            StatusCode::OK,
+        ),
+
+        Err(e) => warp::reply::with_status(
+            warp::reply::with_header(warp::reply::json(&e.to_string()), "x-frame-options", "DENY"),
+            StatusCode::INTERNAL_SERVER_ERROR,
+        ),
+    };
+    Ok(response) 
 }

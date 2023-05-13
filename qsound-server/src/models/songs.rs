@@ -8,6 +8,7 @@ pub struct Song {
     pub label: Option<String>,
     pub release_date: Option<String>,
     pub duration: Option<String>,
+    //this is updated when the song NFT is minted by the user
     pub nft_contract_address: Option<String>,
     //this is the user that bought the NFT of the song
     pub owner_address: Option<String>,
@@ -106,4 +107,18 @@ pub struct AccessContract {
 pub struct FetchSong {
     pub uuid: String,
     pub name: Option<String>,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct FindSongRequest {
+    pub uuid: Option<String>,
+    pub name: Option<String>,
+    pub artist: Option<String>,
+    pub album: Option<String>,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct UploadSongRequest {
+    pub name: Option<String>,
+    pub content: Vec<u8>,
 }

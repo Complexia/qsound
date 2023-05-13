@@ -29,6 +29,29 @@ pub fn user_filter() -> BoxedFilter<(impl warp::Reply,)> {
     hello.boxed().or(get_user).boxed().or(authenticate).boxed()
 }
 
+pub fn song_filter() -> BoxedFilter<(impl warp::Reply,)> {
+
+    let song_base = warp::path("song");
+
+    let get_song = song_base
+        .and(warp::path!("get-song"))
+        .and(warp::post())
+        .and(crate::routes::json_body::<models::songs::FetchSong>())
+        .and(warp::header::headers_cloned())
+        .and_then(handlers::songs::fetch_song_from_spaces)
+        .boxed();
+
+    let upload_song = song_base
+        .and(warp::path!("upload-song"))
+        .and(warp::post())
+        .and(crate::routes::json_body::<models::songs::UploadSongRequest>())
+        .and(warp::header::headers_cloned())
+        .and_then(handlers::songs::upload_song_to_spaces)
+        .boxed(); 
+
+    get_song.boxed().or(upload_song).boxed()
+}
+
 
 pub fn routes() -> BoxedFilter<(impl warp::Reply,)> {
     let mut headers = HeaderMap::new();

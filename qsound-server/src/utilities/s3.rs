@@ -3,11 +3,12 @@ use anyhow::Result;
 use serde_json::Value;
 
 use crate::models::songs::Song;
+use crate::models::songs::UploadSongRequest;
 
 
-pub async fn upload_to_s3(request: Song) -> Result<Value> {
+pub async fn upload_to_s3(request: UploadSongRequest) -> Result<()> {
     let bytes = crate::entities::pyspaces::upload_to_s3(&request).await?;
-    Ok(bytes)
+    Ok(())
 }
 
 pub async fn fetch_from_s3(request: String) -> Result<Vec<u8>> {
