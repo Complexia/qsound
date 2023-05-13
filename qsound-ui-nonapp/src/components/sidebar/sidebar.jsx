@@ -52,6 +52,7 @@ const Sidebar = () => {
               <Link href={item.href}>
                 <div className="flex ">
                   <FontAwesomeIcon
+                    key={index}
                     icon={item.icon}
                     width={20}
                     className="ml-2"
