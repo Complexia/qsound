@@ -14,10 +14,10 @@ use std::env;
 fn get_aws_client() -> Result<Client> {
     // get the id/secret from env
     dotenv().ok();
-    let key_id = env::var("ENV_CRED_KEY_ID").context("Missing S3_KEY_ID")?;
-    let key_secret = env::var("ENV_CRED_KEY_SECRET").context("Missing S3_KEY_SECRET")?;
+    let key_id = env::var("S3_ACCESS_KEY").context("Missing S3_KEY_ID")?;
+    let key_secret = env::var("S3_ACCESS_SECRET").context("Missing S3_KEY_SECRET")?;
 
-    let region_name = env::var("REGION").context("Missing Region")?;
+    let region_name = env::var("S3_BUCKET_REGION").context("Missing Region")?;
     // build the aws cred
     let cred = Credentials::new(key_id, key_secret, None, None, "loaded-from-custom-env");
 
@@ -53,6 +53,10 @@ pub async fn list_keys(client: &Client, bucket_name: &str) -> Result<Vec<String>
 pub async fn create_multipart_upload(bucket_name: &str, key: &str) -> Result<String> {
     let client = get_aws_client()?;
 
+    let keys = list_keys(&client, bucket_name).await?;
+    println!("keys: {:?}", keys);
+    
+    println!("{} {}", bucket_name, key);
     let multipart_upload_res: CreateMultipartUploadOutput = client
         .create_multipart_upload()
         .bucket(bucket_name)
@@ -132,11 +136,11 @@ where
     B: warp::Buf,
 {
     // Begin multipart upload process
-    let bucket_name = get_env_variable("S3_BUCKET", "qsound-songs-bucket");
+    let bucket_name = get_env_variable("S3_BUCKET_NAME", "qsound-songs-bucket");
     // {bucket_name}/data/{location_id}/{dispensing_system}/{data_type}_{date_time}.json
     let song_uuid = uuid::Uuid::new_v4().to_string();
     let key = format!(
-        "songs/{}.mp3",
+        "{}.mp3",
         song_uuid
     );
 

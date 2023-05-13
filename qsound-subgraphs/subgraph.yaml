@@ -1,0 +1,92 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: QSoundPass
+    network: mumbai
+    source:
+      address: "0xfD4647355faA513512a2F5A1f5F46010F8857AEb"
+      abi: QSoundPass
+      startBlock: 35553650
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - FundsClaimed
+        - OwnershipTransferred
+        - Paused
+        - SoundPassClaimed
+        - SoundPassFeeSet
+        - Transfer
+        - Unpaused
+      abis:
+        - name: QSoundPass
+          file: ./abis/QSoundPass.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: FundsClaimed(uint256,uint256)
+          handler: handleFundsClaimed
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: SoundPassClaimed(indexed uint256,address,uint256)
+          handler: handleSoundPassClaimed
+        - event: SoundPassFeeSet(uint256)
+          handler: handleSoundPassFeeSet
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/q-sound-pass.ts
+  - kind: ethereum
+    name: QSoundSongFactoryV2
+    network: mumbai
+    source:
+      address: "0xc7672a15dcdbBB458Ac47F6e048FE431c8f811df"
+      abi: QSoundSongFactoryV2
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - IncomeClaimed
+        - MintCountUpdated
+        - MintPaused
+        - MintStarted
+        - QSoundSongFactoryV2OwnershipTransferred
+        - QSoundSongV2Created
+        - TokenMinted
+        - TokenPriceUpdated
+        - TokenURIUpdated
+      abis:
+        - name: QSoundSongFactoryV2
+          file: ./abis/QSoundSongFactoryV2.json
+      eventHandlers:
+        - event: IncomeClaimed(uint256,address,uint256)
+          handler: handleIncomeClaimed
+        - event: MintCountUpdated(indexed uint256,uint256)
+          handler: handleMintCountUpdated
+        - event: MintPaused(indexed uint256,uint256)
+          handler: handleMintPaused
+        - event: MintStarted(indexed uint256,uint256)
+          handler: handleMintStarted
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: QSoundSongV2Created(indexed uint256,indexed address,indexed
+            address,uint256,uint256,bool,uint256)
+          handler: handleQSoundSongV2Created
+        - event: TokenMinted(indexed uint256,indexed address,indexed uint256,uint256)
+          handler: handleTokenMinted
+        - event: TokenPriceUpdated(indexed uint256,uint256)
+          handler: handleTokenPriceUpdated
+        - event: TokenURIUpdated(indexed uint256,string)
+          handler: handleTokenURIUpdated
+      file: ./src/q-sound-song-factory-v-2.ts

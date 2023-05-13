@@ -46,13 +46,13 @@ const CreateSong = () => {
     e.preventDefault();
 
     // Create FormData object to send file and data
-    const formData = new FormData();
-    formData.append("uuid", uuid);
-    formData.append("irsc", irsc);
-    formData.append("description", description);
-    formData.append("title", title);
-    formData.append("artist", artist);
-    formData.append("file", file);
+    // const formData = new FormData();
+    // formData.append("uuid", uuid);
+    // formData.append("irsc", irsc);
+    // formData.append("description", description);
+    // formData.append("title", title);
+    // formData.append("artist", artist);
+    // formData.append("file", file);
 
     const payload = {
       name: title,
@@ -66,29 +66,84 @@ const CreateSong = () => {
       }
     }
 
-    console.log(payload);
+    
+    const song = {
+      uuid: uuid,
+      irsc: irsc,
+      description: description,
+      artist: artist,
+      original_owner_address: "0x1234567890123456789012345678901234567890", //get this from wallet
+    }
+
+    const uploadParams = {
+      name: 'My Upload',
+      song: {
+        uuid: null,
+        name: 'Song Name',
+        irsc: 'IRSC Code',
+        artist: 'Artist Name',
+        label: 'Label Name',
+        release_date: 'Release Date',
+        duration: 'Song Duration',
+        description: 'Song Description',
+        nft_contract_address: null,
+        owner_address: null,
+        original_owner_address: 'Original Owner Address',
+      },
+    };
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('params', JSON.stringify(uploadParams));
+    
 
     try {
-      // Send data to the API endpoint
-      const response = await axios.post('/song/upload-song', payload);
+      console.log("are we trying?")
+      const response = await axios.post('/song/upload-stream', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+     
 
-      // Handle the response
-      if (response.ok) {
-        console.log("Song uploaded successfully!");
-        // Reset form state
-        setUuid("");
-        setIrsc("");
-        setTitle("");
-        setDescription("");
-        setArtist("");
-        setSongName("");
-        setFile(null);
-      } else {
-        console.error("Failed to upload song.");
-      }
+      console.log('Upload successful:', response.data);
+      // Reset form state
+      setUuid("");
+      setIrsc("");
+      setTitle("");
+      setDescription("");
+      setArtist("");
+      setSongName("");
+      setFile(null);
+      setFileBytes(null);
+      
     } catch (error) {
-      console.error("Error uploading song:", error);
+      console.error('Error uploading file:', error);
     }
+
+    
+
+  //   try {
+  //     // Send data to the API endpoint
+  //     const response = await axios.post('/song/upload-song', payload);
+
+  //     // Handle the response
+  //     if (response.ok) {
+  //       console.log("Song uploaded successfully!");
+  //       // Reset form state
+  //       setUuid("");
+  //       setIrsc("");
+  //       setTitle("");
+  //       setDescription("");
+  //       setArtist("");
+  //       setSongName("");
+  //       setFile(null);
+  //     } else {
+  //       console.error("Failed to upload song.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading song:", error);
+  //   }
   };
 
   return (
