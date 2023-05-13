@@ -8,27 +8,66 @@ app = Flask(__name__)
 def upload_song():
     req = request.json  
     endpoint = req['endpoint']
-    client = s3.create_client(endpoint)
+    spaces_key = req['spaces_key']
+    spaces_secret = req['spaces_secret']
+    client = s3.create_client(endpoint, spaces_key, spaces_secret)
     bucket_name = req['bucket_name']
     file_name = req['file_name']
     file_bytes = req['file_bytes']
+    
     metadata = {}
-    s3.upload_file_to_bucket(client, bucket_name, file_name, file_bytes, metadata)
+    
+    s3.upload_file_to_bucket(client, bucket_name, file_name, file_bytes, 
+                             metadata)
+
     
     return req['file_name']
 
 @app.route('/download-song-from-spaces', methods=['POST'])
 def download_song():
     req = request.json  
-    endpoint = os.getenv('SPACES_ENDPOINT')
-    client = s3.create_client(endpoint)
+    endpoint = req['endpoint']
+    spaces_key = req['spaces_key']
+    spaces_secret = req['spaces_secret']
+    client = s3.create_client(endpoint, spaces_key, spaces_secret)
     bucket_name = 'songs'
     file_name = req['file_name']
-    file_bytes = req['file_bytes']
+    
     metadata = {}
-    file = s3.download_file_from_bucket(client, bucket_name, file_name)
+    file = s3.download_file_from_bucket(client, bucket_name, file_name, 
+                                        metadata)
     
     return file
+
+@app.route('/get-presigned-download-link', methods=['POST'])
+def get_presigned_download_link():
+    req = request.json  
+    endpoint = req['endpoint']
+    spaces_key = req['spaces_key']
+    spaces_secret = req['spaces_secret']
+    client = s3.create_client(endpoint, spaces_key, spaces_secret)
+    bucket_name = 'songs'
+    file_name = req['file_name']
+    
+    
+    url = s3.get_presigned_url_for_file_download(client, bucket_name, file_name) 
+
+    return url                                
+
+@app.route('/get-presigned-upload-link', methods=['POST'])
+def get_presigned_upload_link():
+    req = request.json  
+    endpoint = req['endpoint']
+    spaces_key = req['spaces_key']
+    spaces_secret = req['spaces_secret']
+    client = s3.create_client(endpoint, spaces_key, spaces_secret)
+    bucket_name = 'songs'
+    file_name = req['file_name']
+    
+    
+    url = s3.get_presigned_url_for_file_upload(client, bucket_name, file_name) 
+
+    return url 
 
 if __name__ == '__main__':
     app.run(port=4030)

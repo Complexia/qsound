@@ -2,14 +2,14 @@ import os
 import boto3
 import botocore
 
-def create_client(endpoint):
+def create_client(endpoint, spaces_key, spaces_secret):
     session = boto3.session.Session()
     client = session.client('s3', 
                             config=botocore.config.Config(s3={'addressing_style': 'virtual'}), 
                             region_name='syd1',
                             endpoint_url=endpoint,
-                            aws_access_key_id=os.getenv('SPACES_KEY'),
-                            aws_secret_access_key=os.getenv('SPACES_SECRET'))
+                            aws_access_key_id=spaces_key,
+                            aws_secret_access_key=spaces_secret)
     return client
 
 
@@ -27,7 +27,7 @@ def list_all_files_in_bucket(client, bucket_name):
     response = client.list_objects(Bucket=bucket_name)
     return response
 
-def upload_file_to_bucket(client, bucket_name, file_name, file_bytes, metadata):
+def upload_file_to_bucket(client, bucket_name, file_name, file_bytes, metadata, spaces_key, spaces_secret):
     client.put_object(Bucket=bucket_name,
                   Key=file_name,
                   Body=file_bytes,
