@@ -30,7 +30,8 @@ pub async fn upload_to_s3<T: serde::Serialize>(
     let spaces_endpoint = crate::utilities::get_env_variable("SPACES_ENDPOINT", "");
 
     let upload_to_s3_request = crate::models::s3::UploadToS3Request {
-        uuid: song.uuid.to_string(),
+        //this should never be None in theory
+        uuid: song.uuid.unwrap(),
         file_bytes: song_as_bytes,
         bucket_name: bucket_name.to_string(),
         spaces_api_key: spaces_api_key.to_string(),

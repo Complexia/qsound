@@ -40,17 +40,23 @@ pub async fn upload_song(
     headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     
+    let mut request = request;
+    let song_uuid = uuid::Uuid::new_v4().to_string();
+    request.song.as_mut().unwrap().uuid = Some(song_uuid);
 
     // put song into spaces first
+    
     let res = match crate::utilities::songs::upload_song_to_spaces(request.to_owned()).await {
         Ok(x) => Ok(x),
         Err(e) => Err(e)
     };
 
+    //do a match on the above res to make sure it did not fail
+    
     // then put song into mongo
     let res = match crate::utilities::mongo::create_song(request.song.unwrap()).await {
         Ok(x) => Ok(x),
-        Err(e) => Err(e)
+        Err(e) => Err(e),
     };
 
     let response = match res {

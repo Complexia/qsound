@@ -2,7 +2,8 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Song {
-    pub uuid: String,
+    //optional because it is not passed from the frontend, but generated server side
+    pub uuid: Option<String>,
     pub name: Option<String>,
     pub artist: Option<String>,
     pub label: Option<String>,
@@ -19,7 +20,7 @@ pub struct Song {
 impl Default for Song {
     fn default() -> Self {
         Song {
-            uuid: "".to_string(),
+            uuid: Some("".to_string()),
             name: None,
             artist: None,
             label: None,
@@ -38,7 +39,7 @@ impl Song {
         let mut bytes = Vec::new();
         
         // Serialize the uuid field
-        bytes.extend_from_slice(self.uuid.as_bytes());
+        bytes.extend_from_slice(self.uuid.to_owned().unwrap().as_bytes());
         bytes.push(b'\0'); // Add a null byte as a separator
         
         // Serialize the name field
