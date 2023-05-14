@@ -64,7 +64,7 @@ const Portfolio = () => {
               className="rounded-full"
             />
             <div className="flex flex-col justify-center">
-              <h1 className="ml-8 font-bold text-4xl mt-16">Gabriel 🔥</h1>
+              <h1 className="ml-8 font-bold text-4xl mt-16">Remi 🔥</h1>
               <h1 className="ml-8 font-semibold text-lg text-gray-300">
                 {currentAccount}
               </h1>

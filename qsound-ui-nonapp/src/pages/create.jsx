@@ -1,10 +1,12 @@
 import Layout from "@/components/layout/layout";
 import contractCall from "@/components/metamask/lib/contract-call";
+import { QSOUND_FACTORY_ABI, QSOUND_FACTORY_ADDRESS } from "@/constants";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 const axios = require('axios');
+import { useSelector } from "react-redux";
 
 const CreateSong = () => {
   const [isFocused, setIsFocused] = useState(false);
@@ -19,6 +21,10 @@ const CreateSong = () => {
   const handleFocus = () => {
     setIsFocused(true);
   };
+
+  const { currentAccount } = useSelector(
+    (state) => state.metamask
+  );
 
   const handleBlur = () => {
     setIsFocused(false);
@@ -44,12 +50,7 @@ const CreateSong = () => {
 
   const handleSubmit = async (e) => {
     
-    e.preventDefault();
-
-
-   
-
-    const uploadParams = {
+       const uploadParams = {
       name: 'My Upload',
       song: {
         uuid: null,
