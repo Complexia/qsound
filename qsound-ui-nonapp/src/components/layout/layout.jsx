@@ -6,20 +6,44 @@ import Navbar from "@/components/navbar/navbar";
 import Sidebar from "@/components/sidebar/sidebar";
 import { useEffect, useState } from "react";
 import PurchasePremiumModal from "../PurchasePremiumModal";
+import axios from "axios";
+import { getTokenBalanceByAddress } from "@/graphql/queries";
+import { QSOUND_PASS_ADDRESS } from "@/constants";
+
+
 
 const Layout = (props) => {
-  const [accessToken, setAccessToken] = useState(null);
+  const [address, setAddress] = useState(null);
   const [fullScreen, setFullScreen] = useState(true);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      let accessTokenValue = localStorage.getItem("accessToken");
+      let addressValue = localStorage.getItem("address");
 
-      if (accessTokenValue !== "undefined" && accessTokenValue !== null) {
-        setAccessToken(JSON.parse(accessTokenValue));
+      if (addressValue !== "undefined" && addressValue !== null) {
+        setAddress(addressValue);
       }
     }
+
+    const getTokenBalance = async (address, contract) => {
+      let query = getTokenBalanceByAddress(address, contract);
+      const response = await axios.post("https://api.airstack.xyz/gql", query);
+      console.log(response);
+    }
+
+    const fetch = async () => {
+      let response = await getTokenBalance(address, QSOUND_PASS_ADDRESS);
+      console.log("airstack response", response)
+
+    }
+    if (address) {
+      fetch();
+    }
+    
+    
 
     setFullScreen(window.innerHeight >= document.documentElement.scrollHeight);
   }, []);

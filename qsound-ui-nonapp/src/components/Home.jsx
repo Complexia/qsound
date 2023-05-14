@@ -5,8 +5,10 @@ import Image from "next/image";
 import ReactPaginate from "react-paginate";
 import Link from "next/link";
 
+
 const Home = () => {
   const [isPaused, setIsPaused] = useState(false);
+  
   const divs = [
     {
       key: 1,

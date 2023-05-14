@@ -2,15 +2,18 @@ import ConnectButton from "@/components/metamask/connectButton/connectButton";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import SismoConnectTesting from "../SismoConnectTesting";
-const Navbar = ({ setShowPremiumModal }) => {
-  const [isPremium, setIsPremium] = useState(false);
+
+const Navbar = ({ setShowPremiumModal, isPremium }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
+  const [address, setAddress] = useState("");
+
   useEffect(() => {
+    
     // create a new SismoConnect instance with the client configuration
   }, []);
+
   return (
     <nav className="bg-gradient-to-b from-purple-800 to-black  transition-all duration-300 z-10 py-5 ">
       <div className="flex items-center justify-between px-4">

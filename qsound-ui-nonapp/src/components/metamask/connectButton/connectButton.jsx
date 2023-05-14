@@ -33,6 +33,7 @@ export default function ConnectButton() {
 
         const accounts = await getAccounts(ethereum);
         if (accounts.length > 0) {
+          localStorage.setItem("address", accounts[0]);
           dispatch(metamaskActions.setAccounts(accounts));
           dispatch(metamaskActions.setCurrentAccount(accounts[0]));
           let balance = Number(await getBalance(accounts[0]));
