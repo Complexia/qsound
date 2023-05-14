@@ -75,8 +75,8 @@ contract QSoundSongFactoryV2 is Ownable {
         uint256 _mintCount,
         uint256 _tokenPrice,
         bool _allowMint
-    ) public payable {
-        require(msg.value >= createSongFee, "Insufficient fee");
+    ) public {
+        // require(msg.value >= createSongFee, "Insufficient fee");
         uint256 songId = _tokenIdCounter.current();
         QSoundSongV2 newSong = new QSoundSongV2(
             _uri,
@@ -97,11 +97,6 @@ contract QSoundSongFactoryV2 is Ownable {
             _allowMint,
             block.timestamp
         );
-
-        if (msg.value > createSongFee) {
-            uint256 refundAmount = msg.value - createSongFee;
-            payable(msg.sender).transfer(refundAmount);
-        }
     }
 
     /**

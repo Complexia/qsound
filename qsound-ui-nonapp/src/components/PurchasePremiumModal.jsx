@@ -6,8 +6,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React from "react";
-
+import { IDKitWidget } from "@worldcoin/idkit";
+import { useIDKit } from "@worldcoin/idkit";
+import contractCall from "./metamask/lib/contract-call";
+import { QSOUND_PASS_ABI, QSOUND_PASS_ADDRESS } from "@/constants";
+import { useSelector } from "react-redux";
 function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
+  const { currentAccount } = useSelector((state) => state.metamask);
+  const { open, setOpen } = useIDKit();
+  const [isWorldCoin, setIsWorldCoin] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto backdrop-blur-md">
       <div className="flex items-center justify-center min-h-screen">
@@ -71,15 +79,66 @@ function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
             </p>
           </div>
           <div className="flex justify-center my-4 ">
-            <button
-              onClick={() => {
-                purchase();
-              }}
-              className="font-semibold text-xl p-2 bg-[#008000] rounded-md select-none hover:bg-white hover:text-black transition ease-in-out delay-150 duration-300"
-            >
-              Purchase NFT
-            </button>
+            {!isWorldCoin ? (
+              isLoading ? (
+                <button
+                  onClick={() => {}}
+                  className="font-semibold text-xl p-4 mt-3 bg-[#FFC000] rounded-md select-none hover:bg-white hover:text-black transition ease-in-out delay-150 duration-300"
+                >
+                  Loading...
+                </button>
+              ) : (
+                <button
+                  onClick={async () => {
+                    // pass the proof to the API or your smart contract and make a call here
+                    // purchase();
+
+                    // Without proof
+                    try {
+                      const result = await contractCall(
+                        QSOUND_PASS_ADDRESS,
+                        currentAccount,
+                        QSOUND_PASS_ABI,
+                        [currentAccount],
+                        "0",
+                        "purchaseQSoundPass(address)",
+                        false
+                      );
+                    } catch (e) {
+                      console.log(e);
+                    }
+                    setIsLoading(true);
+                    setInterval(() => {
+                      setIsLoading(false);
+                      setShowPremiumModal();
+                    }, 19000);
+                  }}
+                  className="font-semibold text-xl p-4 mt-3 bg-[#008000] rounded-md select-none hover:bg-white hover:text-black transition ease-in-out delay-150 duration-300"
+                >
+                  Purchase NFT
+                </button>
+              )
+            ) : (
+              <button
+                onClick={() => {
+                  setOpen(true);
+                }}
+                className="font-semibold text-xl p-4 mt-3 bg-black rounded-md select-none hover:bg-white hover:text-black transition ease-in-out delay-150 duration-300"
+              >
+                Verify WorldID
+              </button>
+            )}
           </div>
+          <IDKitWidget
+            app_id="app_7f95130da0a95eca5758819f652c5eb7"
+            action="my_action"
+            enableTelemetry
+            onSuccess={(result) => {
+              console.log(result);
+              // store the proof in state variables
+              setIsWorldCoin(false);
+            }}
+          />
         </div>
       </div>
     </div>

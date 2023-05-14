@@ -30,7 +30,7 @@ contract QSoundPass is ERC721, Pausable, Ownable {
      * @dev Modifier to check if the sent value is sufficient to cover the QSoundPass fee.
      */
     modifier feeCheck() {
-        require(msg.value >= qSoundPassFee, "Insufficient Fee");
+        // require(msg.value >= qSoundPassFee, "Insufficient Fee");
         _;
     }
 
@@ -61,7 +61,7 @@ contract QSoundPass is ERC721, Pausable, Ownable {
     function _baseURI() internal pure override returns (string memory) {
         // TODO: Should point to metadata JSON
         return
-            "https://s3-alpha.figma.com/hub/file/1913095808/a7bdc469-cd70-4ea1-bb57-b59204ad8182-cover.png";
+            "https://bafkreic7ejxg2j2xajefpwynm6c65rimppcuextabn7juquvuh2dqznbee.ipfs.nftstorage.link/";
     }
 
     /**
@@ -93,7 +93,7 @@ contract QSoundPass is ERC721, Pausable, Ownable {
      * @dev Allows the purchase of a QSoundPass by minting a new token.
      * @param to The address to receive the newly minted QSoundPass token.
      */
-    function purchaseQSoundPass(address to) public payable whenNotPaused feeCheck {
+    function purchaseQSoundPass(address to) public whenNotPaused {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

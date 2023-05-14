@@ -73,8 +73,8 @@ export default async function contractCall(
         },
         "latest", // Use the latest block number
       ],
-      value,
-      id: 1, // The request ID (can be any number)
+      value: value,
+      id: 2, // The request ID (can be any number)
     };
   }
 

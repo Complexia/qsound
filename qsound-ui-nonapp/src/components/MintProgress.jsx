@@ -2,13 +2,13 @@ import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-function MintProgress({ percentage, total = 20, amount = 8 }) {
+function MintProgress({ total = 20, amount = 8 }) {
   return (
     <div className="flex">
       <div style={{ width: "100px" }} className="ml-8">
         <CircularProgressbar
-          value={percentage}
-          text={`${percentage}%`}
+          value={(amount * 100) / total}
+          text={`${(amount * 100) / total}%`}
           strokeWidth={15}
           styles={{
             path: {

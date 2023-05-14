@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/layout";
+import contractCall from "@/components/metamask/lib/contract-call";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
@@ -45,35 +46,8 @@ const CreateSong = () => {
     
     e.preventDefault();
 
-    // Create FormData object to send file and data
-    // const formData = new FormData();
-    // formData.append("uuid", uuid);
-    // formData.append("irsc", irsc);
-    // formData.append("description", description);
-    // formData.append("title", title);
-    // formData.append("artist", artist);
-    // formData.append("file", file);
 
-    const payload = {
-      name: title,
-      content: fileBytes,
-      song : {
-        uuid: uuid,
-        irsc: irsc,
-        description: description,
-        artist: artist,
-        original_owner_address: "0x1234567890123456789012345678901234567890", //get this from wallet
-      }
-    }
-
-    
-    const song = {
-      uuid: uuid,
-      irsc: irsc,
-      description: description,
-      artist: artist,
-      original_owner_address: "0x1234567890123456789012345678901234567890", //get this from wallet
-    }
+   
 
     const uploadParams = {
       name: 'My Upload',
@@ -107,6 +81,7 @@ const CreateSong = () => {
      
 
       console.log('Upload successful:', response.data);
+
       // Reset form state
       setUuid("");
       setIrsc("");
@@ -116,6 +91,16 @@ const CreateSong = () => {
       setSongName("");
       setFile(null);
       setFileBytes(null);
+
+      const output = await contractCall(
+        QSOUND_FACTORY_ADDRESS,
+        currentAccount,
+        QSOUND_FACTORY_ABI,
+        ["TEST_URI", 10, 1000, true],
+        "0",
+        "createQSoundSongV2(string,uint256,uint256,bool)",
+        false
+      );
       
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -222,8 +207,11 @@ const CreateSong = () => {
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="p-4 bg-purple-800 h-[50px] text-white font-semibold flex items-center justify-center rounded-lg mt-16 hover:text-black hover:bg-white transition ease-in-out delay-100 duration-200 hover:scale-105" 
-              onClick={handleSubmit}
+            <button
+              className="p-4 bg-purple-800 h-[50px] text-white font-semibold flex items-center justify-center rounded-lg mt-16 hover:text-black hover:bg-white transition ease-in-out delay-100 duration-200 hover:scale-105"
+              onClick={() => {
+                handleSubmit();
+              }}
             >
               <FontAwesomeIcon
                 icon={faMusic}
