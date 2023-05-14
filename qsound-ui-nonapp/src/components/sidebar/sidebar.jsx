@@ -4,6 +4,8 @@ import { SismoConnectButton, AuthType } from "@sismo-core/sismo-connect-react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SismoConnectTesting from "../SismoConnectTesting";
+import { useSelector } from "react-redux";
+
 import {
   faHome,
   faMusic,
@@ -22,11 +24,13 @@ const Sidebar = () => {
     { name: "Analytics", href: "/analytics", icon: faChartBar },
   ];
 
-  const [showIntegrations, setShowIntegrations] = useState(false);
-  const [isPremium, setIsPremium] = useState(true);
-  const toggleIntegrations = () => {
-    setShowIntegrations(!showIntegrations);
-  };
+  
+  
+  
+
+  const { isPremium } = useSelector(
+    (state) => state.metamask
+  );
 
   return (
     <div className=" h-full pt-1 px-5 bg-gradient-to-b from-purple-800 to-black transition-all duration-300 z-10">

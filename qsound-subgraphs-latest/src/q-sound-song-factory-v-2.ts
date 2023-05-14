@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts";
 import {
   QSoundSongFactoryV2,
   IncomeClaimed,
@@ -9,66 +9,91 @@ import {
   QSoundSongV2Created,
   TokenMinted,
   TokenPriceUpdated,
-  TokenURIUpdated
-} from "../generated/QSoundSongFactoryV2/QSoundSongFactoryV2"
-import { ExampleEntity } from "../generated/schema"
+  TokenURIUpdated,
+} from "../generated/QSoundSongFactoryV2/QSoundSongFactoryV2";
+import { QSound, QSoundNFT } from "../generated/schema";
 
-export function handleIncomeClaimed(event: IncomeClaimed): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from)
+export function handleIncomeClaimed(event: IncomeClaimed): void {}
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from)
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+export function handleMintCountUpdated(event: MintCountUpdated): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
   }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.amount = event.params.amount
-  entity.claimer = event.params.claimer
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.getCreateSongFee(...)
-  // - contract.owner(...)
-  // - contract.tokenURI(...)
+  qsound.totalMint = event.params.newMintCount;
+  qsound.save();
 }
 
-export function handleMintCountUpdated(event: MintCountUpdated): void {}
+export function handleMintPaused(event: MintPaused): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.isPaused = true;
+  qsound.save();
+}
 
-export function handleMintPaused(event: MintPaused): void {}
-
-export function handleMintStarted(event: MintStarted): void {}
+export function handleMintStarted(event: MintStarted): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.isPaused = false;
+  qsound.save();
+}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
-export function handleQSoundSongV2Created(event: QSoundSongV2Created): void {}
+export function handleQSoundSongV2Created(event: QSoundSongV2Created): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.currentMint = BigInt.fromI32(0);
+  qsound.contract = event.params.songContract;
+  qsound.totalMint = event.params.tokenCount;
+  qsound.isPaused = event.params.allowMint;
+  qsound.artist = event.params.owner;
+  qsound.mintPrice = event.params.mintPrice;
+  qsound.createdAt = event.params.timestamp;
+  qsound.save();
+}
 
-export function handleTokenMinted(event: TokenMinted): void {}
+export function handleTokenMinted(event: TokenMinted): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.currentMint = qsound.currentMint.plus(BigInt.fromI32(1));
+  qsound.save();
+  let qsoundNFT = QSoundNFT.load(
+    event.params.songId.toHexString() + event.params.account.toHexString()
+  );
+  if (!qsoundNFT) {
+    qsoundNFT = new QSoundNFT(
+      event.params.songId.toHexString() + event.params.account.toHexString()
+    );
+  }
+  qsoundNFT.song = qsound.id;
+  qsoundNFT.mintedAt = event.params.timestamp;
+  qsoundNFT.owner = event.params.account;
+  qsoundNFT.save();
+}
 
-export function handleTokenPriceUpdated(event: TokenPriceUpdated): void {}
+export function handleTokenPriceUpdated(event: TokenPriceUpdated): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.mintPrice = event.params.newPrice;
+  qsound.save();
+}
 
-export function handleTokenURIUpdated(event: TokenURIUpdated): void {}
+export function handleTokenURIUpdated(event: TokenURIUpdated): void {
+  let qsound = QSound.load(event.params.songId.toHexString());
+  if (!qsound) {
+    qsound = new QSound(event.params.songId.toHexString());
+  }
+  qsound.uri = event.params.newUri;
+  qsound.save();
+}

@@ -1,7 +1,12 @@
 import React from "react";
+import {useState} from "react";
 import { SismoConnectButton, AuthType } from "@sismo-core/sismo-connect-react";
+import axios from "axios";
 
 const SismoConnectTesting = () => {
+  const [isVerified, setIsVerified] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState("");
   return (
     <SismoConnectButton
       appId={"0x9238875dcd2af75cd8cb2a8202eeb257"}

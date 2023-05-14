@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: QSoundSongFactoryV2
@@ -25,7 +25,7 @@ dataSources:
         - TokenURIUpdated
       abis:
         - name: QSoundSongFactoryV2
-          file: ./abis/QSoundSongFactoryV2.json
+          file: QSoundSongFactoryV2/abis/QSoundSongFactoryV2.json
       eventHandlers:
         - event: IncomeClaimed(uint256,address,uint256)
           handler: handleIncomeClaimed
@@ -46,7 +46,7 @@ dataSources:
           handler: handleTokenPriceUpdated
         - event: TokenURIUpdated(indexed uint256,string)
           handler: handleTokenURIUpdated
-      file: ./src/q-sound-song-factory-v-2.ts
+      file: QSoundSongFactoryV2/QSoundSongFactoryV2.wasm
   - kind: ethereum
     name: QSoundPass
     network: mumbai
@@ -70,7 +70,7 @@ dataSources:
         - Unpaused
       abis:
         - name: QSoundPass
-          file: ./abis/QSoundPass.json
+          file: QSoundPass/abis/QSoundPass.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -90,4 +90,4 @@ dataSources:
           handler: handleTransfer
         - event: Unpaused(address)
           handler: handleUnpaused
-      file: ./src/q-sound-pass.ts
+      file: QSoundPass/QSoundPass.wasm

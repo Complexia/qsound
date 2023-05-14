@@ -10,12 +10,14 @@ import { IDKitWidget } from "@worldcoin/idkit";
 import { useIDKit } from "@worldcoin/idkit";
 import contractCall from "./metamask/lib/contract-call";
 import { QSOUND_PASS_ABI, QSOUND_PASS_ADDRESS } from "@/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { metamaskActions } from "@/store/metamaskSlice";
 function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
   const { currentAccount } = useSelector((state) => state.metamask);
   const { open, setOpen } = useIDKit();
   const [isWorldCoin, setIsWorldCoin] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const dispatch = useDispatch();
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto backdrop-blur-md">
       <div className="flex items-center justify-center min-h-screen">
@@ -32,7 +34,7 @@ function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
               onClick={() => setShowPremiumModal()}
             />
           </div>
-          <div class="border-b my-2 mr-2  border-gray-300 opacity-30 "></div>
+          <div className="border-b my-2 mr-2  border-gray-300 opacity-30 "></div>
           <Image
             src={
               "https://media.istockphoto.com/id/1266423143/vector/premium-premium-in-royal-style-on-gold-background-luxury-template-design-vector-stock.jpg?s=612x612&w=0&k=20&c=j2q53cnoGhjf7dPatZCvolSrwjMIAofl2kC0PW7fFig="
@@ -112,9 +114,12 @@ function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
                       setIsLoading(false);
                       setShowPremiumModal();
                     }, 19000);
+                    
+                    dispatch(metamaskActions.setIsPremium(true));
                   }}
                   className="font-semibold text-xl p-4 mt-3 bg-[#008000] rounded-md select-none hover:bg-white hover:text-black transition ease-in-out delay-150 duration-300"
                 >
+
                   Purchase NFT
                 </button>
               )

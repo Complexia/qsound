@@ -20,6 +20,11 @@ const Layout = (props) => {
 
 
   useEffect(() => {
+    
+    setFullScreen(window.innerHeight >= document.documentElement.scrollHeight);
+  }, []);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       let addressValue = localStorage.getItem("address");
 
@@ -30,8 +35,16 @@ const Layout = (props) => {
 
     const getTokenBalance = async (address, contract) => {
       let query = getTokenBalanceByAddress(address, contract);
-      const response = await axios.post("https://api.airstack.xyz/gql", query);
-      console.log(response);
+      try {
+        const response = await axios.post("https://api.airstack.xyz/gql", query);
+        console.log(response);
+
+      }
+      catch (err) {
+        console.log(err);
+      }
+      
+      
     }
 
     const fetch = async () => {
@@ -39,13 +52,11 @@ const Layout = (props) => {
       console.log("airstack response", response)
 
     }
+    console.log("addressWE", address)
     if (address) {
       fetch();
     }
-    
-    
 
-    setFullScreen(window.innerHeight >= document.documentElement.scrollHeight);
   }, []);
 
   return (
@@ -77,6 +88,8 @@ const Layout = (props) => {
               setShowPremiumModal={() => {
                 setShowPremiumModal(true);
               }}
+              isPremium={isPremium}
+
             />
           </div>
 

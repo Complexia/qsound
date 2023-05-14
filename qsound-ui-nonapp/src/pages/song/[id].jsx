@@ -14,14 +14,17 @@ import {
 import MintProgress from "@/components/MintProgress";
 import contractCall from "@/components/metamask/lib/contract-call";
 import { QSOUND_FACTORY_ABI, QSOUND_FACTORY_ADDRESS } from "@/constants";
-import { useSelector } from "react-redux";
+
 import { IDKitWidget } from "@worldcoin/idkit";
 import { useIDKit } from "@worldcoin/idkit";
+import SismoConnectNouns from "@/components/SismoConnectNouns";
+import SismoConnectApe from "@/components/SismoConnectApe";
+import { useSelector } from "react-redux";
 const axios = require('axios');
 const Song = () => {
   const router = useRouter();
   const { id } = router.query; // Access the 'id' parameter
-  const [premium, setPremium] = useState(true);
+  
   const [ownsSong, setOwnsSong] = useState(false);
   const [ownsApe, setOwnsApe] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
@@ -32,6 +35,10 @@ const Song = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
+  const [apeCompleted,setApeCompleted]=useState(false)
+  const [nounCompleted,setNounCompleted]=useState(false)
+
+  const { isPremium } = useSelector((state) => state.metamask);
 
   //new stuff//
 
@@ -83,7 +90,7 @@ const Song = () => {
           </h1>
         </div>
         <div className="flex flex-col justify-center ml-4 mt-8">
-          {isCreator || premium || ownsSong || ownsApe ? (
+          {isCreator || isPremium || ownsSong || apeCompleted || nounCompleted ? (
               isPlaying ? (
                   <FontAwesomeIcon
                   width={45}
@@ -135,7 +142,7 @@ const Song = () => {
               </h1>
             </div>
             <div className="flex flex-col justify-center">
-              <Status status={premium} />
+              <Status status={isPremium} />
             </div>
           </div>
           <div className="flex ml-6 mt-4 justify-between ">
@@ -162,7 +169,7 @@ const Song = () => {
             <div className="flex">
               <Image
                 src={
-                  "https://news.artnet.com/app/news-upload/2021/09/Yuga-Labs-Bored-Ape-Yacht-Club-4466.jpg"
+                  "https://s2.coinmarketcap.com/static/img/coins/64x64/18876.png"
                 }
                 alt="Image"
                 height={100}
@@ -170,11 +177,38 @@ const Song = () => {
                 className=" rounded-lg"
               />
               <h1 className="mt-8 text-lg font-semibold pt-2 pl-4 text-white">
-                Own a Bored Ape
+                Hold APE coins
+              </h1>
+            </div>
+
+            <div className="flex flex-col justify-center">
+              {apeCompleted ? 
+                <Status status={apeCompleted} /> : <SismoConnectApe setApeCompleted={()=>{setApeCompleted(true)}}/>
+              }
+              
+            </div>
+          </div>
+
+          <div className="flex ml-6 mt-4 justify-between ">
+            <div className="flex">
+              <Image
+                src={
+                  "https://brave.com/static-assets/images/optimized/nouns-dao/images/image3.png"
+                }
+                alt="Image"
+                height={100}
+                width={100}
+                className=" rounded-lg"
+              />
+              <h1 className="mt-8 text-lg font-semibold pt-2 pl-4 text-white">
+                HODL Noun NFT
               </h1>
             </div>
             <div className="flex flex-col justify-center">
-              <Status status={ownsApe} />
+            {nounCompleted ? 
+                <Status status={nounCompleted} /> : <SismoConnectNouns setNounCompleted={()=>{setNounCompleted(true)}}/>
+              }
+              
             </div>
           </div>
         </div>

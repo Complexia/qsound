@@ -14,6 +14,7 @@ export const metamaskSlice = createSlice({
     accounts: [],
     currentAccount: "",
     currentBalance: 0,
+    isPremium: false,
   },
   reducers: {
     setBalance: (state, action) => {
@@ -28,6 +29,10 @@ export const metamaskSlice = createSlice({
     setCurrentAccount: (state, action) => {
       state.currentAccount = action.payload;
     },
+    setIsPremium: (state, action) => {
+      state.isPremium = action.payload;
+    }
+    
   },
 });
 

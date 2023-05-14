@@ -2,8 +2,10 @@ import ConnectButton from "@/components/metamask/connectButton/connectButton";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const Navbar = ({ setShowPremiumModal, isPremium }) => {
+
+const Navbar = ({ setShowPremiumModal }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
@@ -13,6 +15,9 @@ const Navbar = ({ setShowPremiumModal, isPremium }) => {
     
     // create a new SismoConnect instance with the client configuration
   }, []);
+  const { isPremium } = useSelector(
+    (state) => state.metamask
+  );
 
   return (
     <nav className="bg-gradient-to-b from-purple-800 to-black  transition-all duration-300 z-10 py-5 ">

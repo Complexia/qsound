@@ -11,6 +11,8 @@ const nextConfig = {
       "media.istockphoto.com",
       "encrypted-tbn0.gstatic.com",
       "news.artnet.com",
+      "brave.com",
+      "s2.coinmarketcap.com"
     ],
   },
   swcMinify: true,
