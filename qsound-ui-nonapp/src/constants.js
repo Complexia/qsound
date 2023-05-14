@@ -1,5 +1,5 @@
 const QSOUND_FACTORY_ADDRESS = "0x949947C65E18CB7A3a54e75b8c058aF2b4B347bC";
-const QSOUND_PASS_ADDRESS = "0x5f8C48b2dA95060758d83ab0038105Acc669D7Ef";
+const QSOUND_PASS_ADDRESS = "0xDe1431845BD3468A9111d050fD1e7ba2C7a8969D";
 
 const QSOUND_FACTORY_ABI = [
   {
@@ -335,6 +335,7 @@ const QSOUND_FACTORY_ABI = [
     type: "function",
   },
 ];
+
 const QSOUND_PASS_ABI = [
   {
     inputs: [{ internalType: "uint256", name: "_qpassFee", type: "uint256" }],
