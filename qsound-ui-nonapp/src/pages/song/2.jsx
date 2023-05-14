@@ -46,7 +46,7 @@ const Song = () => {
     }
 
     try {
-        const presignedLink = await axios.post("/song/get-presigned-link", payload);
+        const presignedLink = await axios.post("/rust/song/get-presigned-link", payload);
         const audio = new Audio(presignedLink.data);
         setAudio(audio);
         //const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");

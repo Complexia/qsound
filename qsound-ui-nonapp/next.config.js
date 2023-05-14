@@ -17,7 +17,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
+        source: '/rust/:path*',
         destination: `${process.env.SERVER_URL}/:path*`,
       },
     ];

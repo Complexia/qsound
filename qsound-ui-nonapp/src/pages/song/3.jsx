@@ -17,6 +17,7 @@ import { QSOUND_FACTORY_ABI, QSOUND_FACTORY_ADDRESS } from "@/constants";
 import { useSelector } from "react-redux";
 import { IDKitWidget } from "@worldcoin/idkit";
 import { useIDKit } from "@worldcoin/idkit";
+const axios = require('axios');
 const Song = () => {
   const router = useRouter();
   const { id } = router.query; // Access the 'id' parameter
@@ -46,7 +47,7 @@ const Song = () => {
     }
 
     try {
-        const presignedLink = await axios.post("/song/get-presigned-link", payload);
+        const presignedLink = await axios.post("/rust/song/get-presigned-link", payload);
         const audio = new Audio(presignedLink.data);
         setAudio(audio);
         //const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
