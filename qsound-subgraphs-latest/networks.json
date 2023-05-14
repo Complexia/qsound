@@ -1,0 +1,11 @@
+{
+  "mumbai": {
+    "QSoundSongFactoryV2": {
+      "address": "0xd81A349B5ad3D0afB832209bA71bB7E81e4bFAC2",
+      "startBlock": 35568257
+    },
+    "QSoundPass": {
+      "address": "0x74d2bDC21cC7bEFa70c950eceFf4eFb39F800AaB"
+    }
+  }
+}
