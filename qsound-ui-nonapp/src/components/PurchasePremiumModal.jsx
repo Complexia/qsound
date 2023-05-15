@@ -9,7 +9,7 @@ import React from "react";
 import { IDKitWidget } from "@worldcoin/idkit";
 import { useIDKit } from "@worldcoin/idkit";
 import contractCall from "./metamask/lib/contract-call";
-import { QSOUND_PASS_ABI, QSOUND_PASS_ADDRESS } from "@/constants";
+import { QSOUND_PASS_ABI, QSOUND_PASS_ADDRESS, GNOSIS_PASS_ADDRESS, OPTIMISM_PASS_ADDRESS } from "@/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { metamaskActions } from "@/store/metamaskSlice";
 function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
@@ -98,7 +98,7 @@ function PurchasePremiumModal({ setShowPremiumModal, purchase }) {
                     // Without proof
                     try {
                       const result = await contractCall(
-                        QSOUND_PASS_ADDRESS,
+                        OPTIMISM_PASS_ADDRESS,
                         currentAccount,
                         QSOUND_PASS_ABI,
                         [currentAccount],

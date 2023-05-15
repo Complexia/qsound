@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/layout";
 import contractCall from "@/components/metamask/lib/contract-call";
-import { QSOUND_FACTORY_ABI, QSOUND_FACTORY_ADDRESS } from "@/constants";
+import { QSOUND_FACTORY_ABI, QSOUND_FACTORY_ADDRESS, GNOSIS_FACTORY_ADDRESS, OPTIMISM_FACTORY_ADDRESS, OPTIMISM_PASS_ADDRESS } from "@/constants";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
@@ -94,7 +94,7 @@ const CreateSong = () => {
       setFileBytes(null);
 
       const output = await contractCall(
-        QSOUND_FACTORY_ADDRESS,
+        OPTIMISM_FACTORY_ADDRESS,
         currentAccount,
         QSOUND_FACTORY_ABI,
         ["TEST_URI", 10, 1000, true],

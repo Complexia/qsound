@@ -637,5 +637,14 @@ const chains = [
     isMainnet: false,
     blockExplorer: "https://blockscout.chiadochain.net/",
   },
+  {
+    name: "OPTIMISM_GOERLI",
+    chainId: 420,
+    icon: "/optimism.png",
+    rpc: "https://goerli.optimism.io",
+    coinName: "ETH",
+    isMainnet: false,
+    blockExplorer: "https://goerli-explorer.optimism.io",
+  },
 ];
 export { contractAddress, ABI, chains };
