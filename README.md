@@ -21,7 +21,7 @@ cd qsound-server
 cargo run
 ```
 
-# Note, you will need a .env file for the backend and .env.local for the frontend to properly run Qsound. I will try to host it in the coming days, but if you are reading this and the link is not available, reach out to me privately and I will supply the .env values (will only give to ETHGlobal team obv).
+ Note, you will need a .env file for the backend and .env.local for the frontend to properly run Qsound. I will try to host it in the coming days, but if you are reading this and the link is not available, reach out to me privately and I will supply the .env values (will only give to ETHGlobal team obv).
 
 ### Contracts deployed:
 </br>
