@@ -36,9 +36,9 @@ const Songs = () => {
   return (
     <Layout>
       <h1 className="text-white font-bold text-3xl mb-6 ml-6">Your songs 🎶</h1>
-      {songs.map(({ name, artist, image }) => {
+      {songs.map(({ name, artist, image }, index) => {
         return (
-          <div className="flex justify-start p-3 rounded-lg bg-gray-800 bg-opacity-30 mb-2 ml-6 ">
+          <div key={index} className="flex justify-start p-3 rounded-lg bg-gray-800 bg-opacity-30 mb-2 ml-6 ">
             <Image
               src={image}
               alt="Image"
