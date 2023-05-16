@@ -15,7 +15,7 @@ import {
 import { chains } from "@/components/metamask/lib/constants";
 import ChainsModal from "@/components/metamask/selectChainsModal/selectChainsModal";
 import getBalance from "@/components/metamask/lib/getBalance";
-import AccountOptionsModal from "@/components/metamask/accountOptionsModal/AccountOptionsModal";
+import AccountOptionsModal from "@/components/metamask/accountOptionsModal/accountOptionsModal";
 export default function ConnectButton() {
   const { currentAccount, currentChain, currentBalance } = useSelector(
     (state) => state.metamask
