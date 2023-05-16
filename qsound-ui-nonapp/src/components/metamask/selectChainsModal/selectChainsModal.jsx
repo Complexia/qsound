@@ -21,8 +21,10 @@ function ChainsModal({ setShowChainModal, setSelectedChain, setNewBalance }) {
             />
           </div>
           <div className="border-b my-2 mr-2  border-gray-300 opacity-30 "></div>
-          {chains.map((chain) => (
+          {chains.map(({ chain }, index) => (
+            
             <button
+              key={index}
               className="p-1 my-2 rounded-lg text-xs bg-transparent hover:bg-white hover:text-black text-white  flex w-[90%] transition ease-in-out delay-100 duration-200 hover:scale-105"
               onClick={async () => {
                 const result = await connectToChain(chain);
@@ -36,12 +38,14 @@ function ChainsModal({ setShowChainModal, setSelectedChain, setNewBalance }) {
                 width={20}
                 height={20}
                 className="my-auto"
+                alt="icon"
               />
 
               <div className=" p-2 text-xs font-semibold my-auto ">
                 {chain.name}
               </div>
             </button>
+            
           ))}
         </div>
       </div>

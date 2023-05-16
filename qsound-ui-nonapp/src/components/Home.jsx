@@ -93,7 +93,7 @@ const Home = () => {
       </div>
       <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
-          <Link href={"/song/" + (parseInt(index) + 1)}>
+          <Link href={"/song/" + (parseInt(index) + 1)}  key={index}>
             <div
               key={index}
               className="flex-col bg-gray-800 bg-opacity-30 h-[240px] pt-3 w-[180px] text-black mx-2 rounded-md hover:bg-purple-800 transition ease-in-out delay-100 duration-200 hover:scale-105"
@@ -145,7 +145,7 @@ const Home = () => {
       </div>
       <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
-          <Link href={"/song/" + index}>
+          <Link href={"/song/" + index} key={index}>
             <div
               key={index}
               className="flex-col bg-gray-800 bg-opacity-30 h-[240px] pt-3 w-[180px] text-black mx-2 rounded-md hover:bg-purple-800 transition ease-in-out delay-100 duration-200 hover:scale-105"
@@ -197,7 +197,7 @@ const Home = () => {
       </div>
       <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
-          <Link href={"/song/" + index}>
+          <Link href={"/song/" + index} key={index}>
             <div
               key={index}
               className="flex-col bg-gray-800 bg-opacity-30 h-[240px] pt-3 w-[180px] text-black mx-2 rounded-md hover:bg-purple-800 transition ease-in-out delay-100 duration-200 hover:scale-105"
@@ -249,7 +249,7 @@ const Home = () => {
       </div>
       <div className="flex flex-row  flex-wrap">
         {visibleDivs.map(({ name, artist, image }, index) => (
-          <Link href={"/song/" + index}>
+          <Link href={"/song/" + index} key={index}>
             <div
               key={index}
               className="flex-col bg-gray-800 bg-opacity-30 h-[240px] pt-3 w-[180px] text-black mx-2 rounded-md hover:bg-purple-800 transition ease-in-out delay-100 duration-200 hover:scale-105"

@@ -54,6 +54,7 @@ const Portfolio = () => {
           width={1400}
           height={400}
           className="mx-auto rounded-lg"
+          alt="fire"
         />
         <div className="absolute top-[80%] left-[5%] flex w-[90%] justify-between">
           <div className="flex">
@@ -62,6 +63,7 @@ const Portfolio = () => {
               width={200}
               height={200}
               className="rounded-full"
+              alt="fire"
             />
             <div className="flex flex-col justify-center">
               <h1 className="ml-8 font-bold text-4xl mt-16">Remi 🔥</h1>
