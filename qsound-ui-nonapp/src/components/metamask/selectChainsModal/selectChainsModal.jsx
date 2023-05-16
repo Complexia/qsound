@@ -21,7 +21,7 @@ function ChainsModal({ setShowChainModal, setSelectedChain, setNewBalance }) {
             />
           </div>
           <div className="border-b my-2 mr-2  border-gray-300 opacity-30 "></div>
-          {chains.map(({ chain }, index) => (
+          {chains.map(( chain, index) => (
             
             <button
               key={index}
