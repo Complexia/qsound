@@ -73,7 +73,7 @@ const CreateSong = () => {
     
 
     try {
-      console.log("are we trying?")
+      
       const response = await axios.post('/rust/song/upload-stream', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

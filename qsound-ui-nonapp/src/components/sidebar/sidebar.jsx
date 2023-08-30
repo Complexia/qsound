@@ -48,7 +48,7 @@ const Sidebar = () => {
             />
           )}
           <span className="cursor-pointer text-white font-bold text-2xl">
-            QSOUND
+            QSIDE
           </span>
         </Link>
       </div>
